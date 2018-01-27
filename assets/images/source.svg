@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="50"
+   height="50"
+   viewBox="0 0 49.999997 49.999997"
+   id="svg3400"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="source.svg">
+  <defs
+     id="defs3402" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="5.6"
+     inkscape:cx="45.461477"
+     inkscape:cy="42.263605"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1600"
+     inkscape:window-height="876"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
+     units="px" />
+  <metadata
+     id="metadata3405">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Capa 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-1002.3622)">
+    <path
+       sodipodi:type="star"
+       style="fill:#999999;stroke:none"
+       id="path3429"
+       sodipodi:sides="5"
+       sodipodi:cx="26.25"
+       sodipodi:cy="1027.3622"
+       sodipodi:r1="26.462334"
+       sodipodi:r2="18.533524"
+       sodipodi:arg1="-1.943784"
+       sodipodi:arg2="-0.64856599"
+       inkscape:flatsided="false"
+       inkscape:rounded="0"
+       inkscape:randomized="0"
+       d="m 16.607144,1002.7193 24.413163,13.4478 5.686637,-5.5909 -5.245527,27.3739 7.074526,3.6806 -27.655077,3.4703 -1.31434,7.8656 -11.8462507,-25.2292 -7.88683201,1.1806 20.33369071,-19.0627 z"
+       inkscape:transform-center-x="2.0653038"
+       inkscape:transform-center-y="0.48078554" />
+  </g>
+</svg>
