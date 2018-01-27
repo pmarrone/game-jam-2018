@@ -59,6 +59,7 @@ class Router {
     if (this.packets.length) {
       this.packets.forEach(packet => packet.destroy())
       packet.destroy()
+      new RedExplosion(packet.x, packet.y)
       return
     }
     this.packets.push(packet)

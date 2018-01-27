@@ -16,6 +16,14 @@ class Package {
     this.update = Package.states.inTransit
   }
 
+  get x() {
+    return this.child.x
+  }
+
+  get y() {
+    return this.child.y
+  }
+
   destroy () {
     game.removeComponent(this)
   }
@@ -95,8 +103,10 @@ class Source {
   packageArrived(packet) {
     if (packet.color === this.color) {
       console.log("Packet arrived correctly")
+      new BlueExplosion(packet.x, packet.y)
     } else {
       console.log("Packaged arrived at the wrong location")
+      new RedExplosion(packet.x, packet.y)
     }
     packet.destroy()
   }
@@ -271,7 +281,6 @@ spaceKey.press = function () {
 aKey.press = () => {
   console.log("Doing stuff?")
   const package = level1.packages[0]
-  package.startTransition(package.currentRouter.target)
 }
 
 sKey.press = () => {
