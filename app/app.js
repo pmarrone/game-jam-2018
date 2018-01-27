@@ -37,7 +37,7 @@ Package.states = {
   },
   inTransit: function (delta) {
     // console.log(`In transit!! Transition: ${this.transition}`)
-    this.transition +=  delta * 0.01 * game.speed
+    this.transition +=  delta * 0.02 * game.speed
     const box = this.child
     if (this.transition >= 1) {
       this.transition = 1
@@ -153,6 +153,8 @@ class PackageScheduler {
   constructor() {
     this.deliveries = []
     this.routers = {}
+    
+    setInterval(() => this.processRoutersTick(), 1500)
   }
 
   processRoutersTick() {
@@ -207,10 +209,10 @@ function initLevel1(scheduler) {
 
   scheduler.deliveries.push(
     //new Delivery(sources.sBlue, Colors.blue, 1000),
-    new Delivery(sources.sYellow, Colors.red, 2000),
-    new Delivery(sources.sRed, Colors.yellow, 2000),
+    new Delivery(sources.sYellow, Colors.red, 0),
+    new Delivery(sources.sRed, Colors.yellow, 0),
     //new Delivery(sources.sYellow, Colors.red, 1000)
-    new Delivery(sources.sBlue, Colors.blue, 2000)
+    new Delivery(sources.sBlue, Colors.blue, 0)
     // new Delivery(sources.sBlue, Colors.red, 3000),
     // new Delivery(sources.sRed, Colors.blue, 1000),
     // new Delivery(sources.sBlue, Colors.yellow, 1000),
