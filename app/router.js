@@ -56,6 +56,11 @@ class Router {
   }
 
   packageArrived(packet) {
+    if (this.packets.length) {
+      this.packets.forEach(packet => packet.destroy())
+      packet.destroy()
+      return
+    }
     this.packets.push(packet)
   }
 
