@@ -1,21 +1,32 @@
-var app = new PIXI.Application(800, 600, {backgroundColor : 0x1099bb});
+var app = new PIXI.Application(800, 600, {backgroundColor : 0x000000});
 document.body.appendChild(app.view);
 
 const Textures = {
   node: PIXI.Texture.fromImage('/assets/images/node.png')
 }
 
+const graphics = new PIXI.Graphics();
+
 class Node {
   constructor(x, y) {
-    this.sprite = new PIXI.Sprite(Textures.node)
-    this.sprite.x = x
-    this.sprite.y = y
-    this.sprite.anchor.set(0.5)
+    this.child = new PIXI.Sprite(Textures.node)
+    this.child.x = x
+    this.child.y = y
+    this.child.anchor.set(0.5)
+    this.dst = []
   }
 
   update(delta) {
-    console.log(delta)
-    this.sprite.rotation += 0.1 * delta
+    this.child.rotation += 0.1 * delta
+  }
+}
+
+class Arc {
+  constructor(a, b) {
+    this.a = a
+    this.b = b
+    a.dst.push(b)
+    b.dst.push(a)
   }
 }
 
@@ -27,8 +38,8 @@ class Game {
     });
   }
   addComponent(component) {
-    if (component.sprite) {
-      app.stage.addChild(component.sprite)
+    if (component.child) {
+      app.stage.addChild(component.child)
     }
     this.components.push(component)
   }
@@ -38,23 +49,48 @@ class Game {
       if (component.update) {
         component.update(delta)
       }
+
+      if (component.draw) {
+        component.draw()
+      }
+
+
     })
   }
 }
 
-const level1 = {
-  nodes: {
+function initLevel1() {
+  const nodes = {
     a: new Node(200, 500),
     b: new Node(400, 400),
     c: new Node(200, 200)
+  }
+  const arcs = [
+    new Arc(nodes.a, nodes.b),
+    new Arc(nodes.b, nodes.c),
+    new Arc(nodes.c, nodes.a)
+  ]
+
+  return {
+    nodes,
+    arcs
   }
 }
 
 const game = new Game()
 
+const level1 = initLevel1()
+
+game.addComponent({child: graphics})
 for (let node in level1.nodes) {
   game.addComponent(level1.nodes[node])
+  
 }
+graphics.lineStyle(4, 0xffd900, 1);
+
+// draw a shape
+graphics.moveTo(200,200);
+graphics.lineTo(450, 500);
 
 
 
