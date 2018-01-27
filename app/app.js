@@ -5,7 +5,8 @@ document.body.appendChild(app.view);
 
 const Textures = {
   node: PIXI.Texture.fromImage('/assets/images/node.png'),
-  source: PIXI.Texture.fromImage('/assets/images/source.png')
+  source: PIXI.Texture.fromImage('/assets/images/source.png'),
+  package: PIXI.Texture.fromImage('/assets/images/package.png')
 }
 
 const Colors = {
@@ -55,8 +56,6 @@ class Node {
     child.cursor = 'wait'
     // child.hitArea = new PIXI.Circle(0, 0, 25);
     this.child = child
-
-
     this.child.anchor.set(0.5)
     this.dst = []
 
@@ -71,18 +70,23 @@ class Node {
   }
 
   update(delta) {
-    this.child.x += Math.sin(new Date().getDate() / 100 + Math.random() * 6)
-    this.child.y += Math.sin(new Date().getDate() / 100 + Math.random() * 6)
+    //this.child.x += Math.sin(new Date().getDate() / 100 + Math.random() * 6)
+    //this.child.y += Math.sin(new Date().getDate() / 100 + Math.random() * 6)
     this.child.rotation = Math.atan2(this.target.child.y - this.child.y, this.target.child.x - this.child.x)
   }
 }
 
 class Package {
   constructor(currentNode) {
+    this.child = new PIXI.Sprite(Textures.package)
+    this.child.x = currentNode.child.x
+    this.child.y = currentNode.child.y
+    this.child.anchor.set(0.5)
     this.currentNode = currentNode
     this.transition = 0
     this.targetNode = null
     this.update = Package.states.idle
+    
   }
 
   startTransition(target) {
@@ -197,11 +201,17 @@ function initLevel1() {
     new Arc(sources.s2, nodes.a),
     new Arc(sources.s3, nodes.c)
   ]
+  const packages = [
+    new Package(nodes.a),
+  //  new Package(nodes.b),
+  //  new Package(nodes.c)
+  ]
 
   return {
     sources,
     nodes,
-    arcs
+    arcs,
+    packages
   }
 }
 
@@ -224,6 +234,11 @@ for (let source in level1.sources) {
 for (let node in level1.nodes) {
   game.addComponent(level1.nodes[node])
 }
+level1.packages.forEach(package => {
+  game.addComponent(package)
+})
+
+
 
 spaceKey = keyboard(keyCodes.SPACE)
 spaceKey.press = function () {
