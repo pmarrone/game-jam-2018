@@ -45,8 +45,6 @@ class Node {
 
   pointerUp(event) {
     const mousePosition = event.data.global
-    console.log(mousePosition)
-    //console.log(this)
     this.target = this.findNodeByAngle(mousePosition.x, mousePosition.y)
   }
 
@@ -92,6 +90,7 @@ class Package {
   startTransition(target) {
     if (this.update === Package.states.inTransit) {
       console.log("Can't move. Already in transit.")
+    } else {
       this.transition = 0
       this.targetNode = target
       this.update = Package.states.inTransit
@@ -104,9 +103,21 @@ Package.states = {
       //noop
   },
   inTransit: function (delta) {
-    this.transition += delta * 10
-    if (this.transition >= 100) {
+    console.log(`In transit!! Transition: ${this.transition}`)
+    this.transition +=  delta * 0.06
+    const box = this.child
+    box.x = Utils.lerp(this.currentNode.child.x, this.targetNode.child.x, this.transition)
+    box.y = Utils.lerp(this.currentNode.child.y, this.targetNode.child.y, this.transition)
+
+    if (this.transition >= 1) {
+      this.transition = 1
+      console.log("Done!")
+      this.currentNode = this.targetNode
       this.update = Package.states.idle
+      setTimeout(() => {
+        this.startTransition(this.currentNode.target)
+      }, 200)
+
     }
   }
 }
@@ -241,8 +252,15 @@ level1.packages.forEach(package => {
 
 
 spaceKey = keyboard(keyCodes.SPACE)
+aKey = keyboard(keyCodes.A)
+
 spaceKey.press = function () {
   debugGraphics.clear()
+}
+aKey.press = () => {
+  console.log("Doing stuff?")
+  const package = level1.packages[0]
+  package.startTransition(package.currentNode.target)
 }
 
 

@@ -1,5 +1,6 @@
 const keyCodes = {
-  SPACE: 32
+  SPACE: 32,
+  A: 65
 }
 
 function keyboard(keyCode) {

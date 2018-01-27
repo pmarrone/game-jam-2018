@@ -14,5 +14,10 @@ const Utils = {
 
   dotProduct(a, b) {
     return a.x * b.x + a.y * b.y
+  },
+
+  lerp(a, b, n) {
+    // return (1 - n) * a + n * b
+    return (b - a) * n + a
   }
 }
