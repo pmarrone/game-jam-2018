@@ -5,8 +5,6 @@ const Textures = {
   node: PIXI.Texture.fromImage('/assets/images/node.png')
 }
 
-const graphics = new PIXI.Graphics();
-
 class Node {
   constructor(x, y) {
     this.child = new PIXI.Sprite(Textures.node)
@@ -17,17 +15,28 @@ class Node {
   }
 
   update(delta) {
-    this.child.rotation += 0.1 * delta
+    // this.child.rotation += 0.1 * delta
   }
 }
 
 class Arc {
   constructor(a, b) {
+    this.child = new PIXI.Graphics()
+    this.line = this.child
     this.a = a
     this.b = b
     a.dst.push(b)
     b.dst.push(a)
   }
+
+  draw() { 
+    const line = this.line, a = this.a, b = this.b
+    line.clear()
+    line.lineStyle(4, 0xffd900, 1);
+    line.moveTo(a.child.x, a.child.y)
+    line.lineTo(b.child.x, b.child.y)
+  }
+
 }
 
 class Game {
@@ -53,8 +62,6 @@ class Game {
       if (component.draw) {
         component.draw()
       }
-
-
     })
   }
 }
@@ -63,12 +70,14 @@ function initLevel1() {
   const nodes = {
     a: new Node(200, 500),
     b: new Node(400, 400),
-    c: new Node(200, 200)
+    c: new Node(200, 200),
+    d: new Node(500, 200)
   }
   const arcs = [
     new Arc(nodes.a, nodes.b),
     new Arc(nodes.b, nodes.c),
-    new Arc(nodes.c, nodes.a)
+    new Arc(nodes.c, nodes.a),
+    new Arc(nodes.c, nodes.d)
   ]
 
   return {
@@ -81,11 +90,13 @@ const game = new Game()
 
 const level1 = initLevel1()
 
-game.addComponent({child: graphics})
 for (let node in level1.nodes) {
   game.addComponent(level1.nodes[node])
-  
 }
+level1.arcs.forEach(arc => {
+  game.addComponent(arc)
+})
+
 graphics.lineStyle(4, 0xffd900, 1);
 
 // draw a shape
