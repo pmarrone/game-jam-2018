@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="50"
+   height="50"
+   viewBox="0 0 50.000001 50.000001"
+   id="svg4269"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="package.svg"
+   inkscape:export-filename="/home/pmarrone/Proyectos/game-jam-2018/assets/images/package.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <defs
+     id="defs4271">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="-9.3794372 : 52.834185 : 1"
+       inkscape:vp_y="0 : 1239.684 : 0"
+       inkscape:vp_z="80.352419 : 55.712023 : 1"
+       inkscape:persp3d-origin="31.109327 : 20.1449 : 1"
+       id="perspective4313" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="11.2"
+     inkscape:cx="3.7433712"
+     inkscape:cy="30.911365"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     units="px"
+     inkscape:object-nodes="true"
+     inkscape:snap-nodes="true"
+     inkscape:snap-midpoints="true"
+     inkscape:snap-object-midpoints="true"
+     inkscape:snap-center="true"
+     inkscape:window-width="1600"
+     inkscape:window-height="876"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata4274">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Capa 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-1002.3622)">
+    <path
+       sodipodi:type="star"
+       style="fill:#cccccc;stroke:#000000;stroke-width:0.67701524;stroke-opacity:1"
+       id="path4423"
+       sodipodi:sides="6"
+       sodipodi:cx="24.642857"
+       sodipodi:cy="1025.9337"
+       sodipodi:r1="13.83317"
+       sodipodi:r2="11.979876"
+       sodipodi:arg1="-0.51643609"
+       sodipodi:arg2="0.0071626818"
+       inkscape:flatsided="true"
+       inkscape:rounded="0"
+       inkscape:randomized="0"
+       d="m 36.671967,1019.1031 -0.09908,13.8328 -12.02911,6.8306 -11.930029,-7.0022 0.09908,-13.8328 12.02911,-6.8306 z"
+       transform="matrix(0.5,-0.8660254,0.8660254,0.5,-876.16323,534.3082)" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.67701524px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 12.712828,1018.9315 11.930016,7.0022 -0.09908,13.8328"
+       id="path4967"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.67701524px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 24.642843,1025.9337 12.029097,-6.8306"
+       id="path4969"
+       inkscape:connector-curvature="0" />
+  </g>
+</svg>

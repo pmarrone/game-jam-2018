@@ -75,16 +75,21 @@ class Node {
 }
 
 class Package {
-  constructor(currentNode) {
+  constructor(currentNode, color) {
+    this.color = color
     this.child = new PIXI.Sprite(Textures.package)
+    this.child.tint = color
     this.child.x = currentNode.child.x
     this.child.y = currentNode.child.y
     this.child.anchor.set(0.5)
     this.currentNode = currentNode
     this.transition = 0
-    this.targetNode = null
-    this.update = Package.states.idle
-    
+    this.targetNode = currentNode.target
+    this.update = Package.states.inTransit
+  }
+
+  destroy () {
+    game.removeComponent(this)
   }
 
   startTransition(target) {
@@ -103,15 +108,17 @@ Package.states = {
       //noop
   },
   inTransit: function (delta) {
-    console.log(`In transit!! Transition: ${this.transition}`)
-    this.transition +=  delta * 0.06
+    // console.log(`In transit!! Transition: ${this.transition}`)
+    this.transition +=  delta * 0.01 * game.speed
     const box = this.child
-
     if (this.transition >= 1) {
       this.transition = 1
       console.log("Done!")
       this.currentNode = this.targetNode
       this.update = Package.states.idle
+
+      this.currentNode.packageArrived && this.currentNode.packageArrived(this)
+
       setTimeout(() => {
         this.startTransition(this.currentNode.target)
       }, 200)
@@ -162,10 +169,21 @@ class Source {
   update(delta) {
     // this.child.rotation += 0.1 * delta
   }
+
+  packageArrived(packet) {
+    if (packet.color === this.color) {
+      console.log("Packet arrived correctly")
+    } else {
+      console.log("Packaged arrived at the wrong location")
+    }
+    packet.destroy()
+  }
 }
 
 class Game {
   constructor() {
+    this.speed = 1
+    this.toRemove = []
     this.components = []
     app.ticker.add(delta => {
       this.update(delta)
@@ -178,6 +196,11 @@ class Game {
     this.components.push(component)
   }
 
+  removeComponent(component) {
+    this.toRemove.push(component)
+    app.stage.removeChild(component.child)
+  }
+
   update(delta) {
     this.components.forEach(component => {
       if (component.update) {
@@ -188,8 +211,44 @@ class Game {
         component.draw()
       }
     })
+
+    while (this.toRemove.length) {
+      const nextToRemove = this.toRemove.shift()
+      this.components.splice(this.components.indexOf(nextToRemove), 1);
+    }
   }
 }
+
+class Delivery {
+  constructor(fromNode, color, sinceNow) {
+    this.fromNode = fromNode,
+    this.color = color,
+    this.sinceNow = sinceNow
+  }
+}
+
+class PackageScheduler {
+  constructor() {
+    this.deliveries = []
+  }
+
+  scheduleNext() {
+    if (this.deliveries.length) {
+      const current = this.deliveries.shift()
+      setTimeout(function() {
+        game.addComponent(new Package(current.fromNode, current.color))
+        this.scheduleNext()
+      }.bind(this), current.sinceNow / game.speed)
+    }
+  }
+
+  start() {
+    this.scheduleNext()
+  }
+}
+
+
+const scheduler = new PackageScheduler();
 
 function initLevel1() {
   const sources = {
@@ -213,10 +272,33 @@ function initLevel1() {
     new Arc(sources.s3, nodes.c)
   ]
   const packages = [
-    new Package(nodes.a),
+    new Package(nodes.a,Colors.blue),
   //  new Package(nodes.b),
   //  new Package(nodes.c)
   ]
+
+  scheduler.deliveries.push(
+    new Delivery(sources.s1, Colors.blue, 1000),
+    new Delivery(sources.s3, Colors.red, 2000),
+    new Delivery(sources.s2, Colors.yellow, 2000),
+    new Delivery(sources.s3, Colors.red, 1000),
+    new Delivery(sources.s2, Colors.blue, 2000),
+    new Delivery(sources.s1, Colors.red, 3000),
+    new Delivery(sources.s2, Colors.blue, 1000),
+    new Delivery(sources.s1, Colors.yellow, 1000),
+    new Delivery(sources.s3, Colors.red, 2000),
+    new Delivery(sources.s1, Colors.blue, 1000),
+    new Delivery(sources.s3, Colors.red, 2000),
+    new Delivery(sources.s2, Colors.yellow, 2000),
+    new Delivery(sources.s3, Colors.red, 1000),
+    new Delivery(sources.s2, Colors.blue, 2000),
+    new Delivery(sources.s1, Colors.red, 2000),
+    new Delivery(sources.s2, Colors.blue, 4000),
+    new Delivery(sources.s1, Colors.yellow, 1000),
+    new Delivery(sources.s3, Colors.red, 3000)
+  )
+  scheduler.scheduleNext()
+
 
   return {
     sources,
@@ -228,11 +310,9 @@ function initLevel1() {
 
 const game = new Game()
 
-
 const debugGraphics = new PIXI.Graphics()
 
 app.stage.addChild(debugGraphics)
-
 
 const level1 = initLevel1()
 
@@ -248,7 +328,6 @@ for (let node in level1.nodes) {
 level1.packages.forEach(package => {
   game.addComponent(package)
 })
-
 
 
 spaceKey = keyboard(keyCodes.SPACE)
