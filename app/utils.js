@@ -1,3 +1,18 @@
+const Colors = {
+  blue: 0x09B6FF,
+  yellow: 0xF8FF09,
+  orange: 0xE88D08,
+  red: 0xFF040B,
+  purple: 0xAB82E8
+}
+
+const Textures = {
+  router: PIXI.Texture.fromImage('/assets/images/router.png'),
+  source: PIXI.Texture.fromImage('/assets/images/source.png'),
+  package: PIXI.Texture.fromImage('/assets/images/package.png')
+}
+
+
 const Utils = {
   normalize({x, y}) {
     let normx, normy

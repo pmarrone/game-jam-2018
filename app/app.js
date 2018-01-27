@@ -2,89 +2,17 @@ var app = new PIXI.Application(800, 600, {backgroundColor : 0x000000});
 
 document.body.appendChild(app.view);
 
-
-const Textures = {
-  node: PIXI.Texture.fromImage('/assets/images/node.png'),
-  source: PIXI.Texture.fromImage('/assets/images/source.png'),
-  package: PIXI.Texture.fromImage('/assets/images/package.png')
-}
-
-const Colors = {
-  blue: 0x09B6FF,
-  yellow: 0xF8FF09,
-  orange: 0xE88D08,
-  red: 0xFF040B,
-  purple: 0xAB82E8
-}
-
-
-class Node {
-  findNodeByAngle(x, y) {
-    let largestDotProduct = null
-    let target = null
-    if (!this.dst.length) {
-      throw "Can't find targeted node because there are no linked nodes!"
-    }
-    this.dst.forEach(current => {
-      const normMouse = Utils.normalize({x: x - this.child.x, y: y - this.child.y})
-      const normTarget = Utils.normalize({x: current.child.x - this.child.x, y: current.child.y - this.child.y})
-      const dotProduct = Utils.dotProduct(normMouse, normTarget)
-      if (largestDotProduct !== null && largestDotProduct > dotProduct) {
-        return
-      }
-      else {
-        largestDotProduct = dotProduct
-        target = current
-      }
-    })
-
-    //debugGraphics.lineStyle(4, 0xffd900, 1);
-    //debugGraphics.drawCircle(target.child.x, target.child.y, 30)
-    return target
-  }
-
-  pointerUp(event) {
-    const mousePosition = event.data.global
-    this.target = this.findNodeByAngle(mousePosition.x, mousePosition.y)
-  }
-
-  constructor(x, y) {
-    const child = new PIXI.Sprite(Textures.node)
-    child.interactive = true
-    child.cursor = 'wait'
-    // child.hitArea = new PIXI.Circle(0, 0, 25);
-    this.child = child
-    this.child.anchor.set(0.5)
-    this.dst = []
-
-    this.child.x = x
-    this.child.y = y
-    child.on('pointerdown', function(event) {
-
-    })
-
-    child.on('pointerupoutside', this.pointerUp.bind(this))
-    child.on('pointerup', this.pointerUp.bind(this))
-  }
-
-  update(delta) {
-    //this.child.x += Math.sin(new Date().getDate() / 100 + Math.random() * 6)
-    //this.child.y += Math.sin(new Date().getDate() / 100 + Math.random() * 6)
-    this.child.rotation = Math.atan2(this.target.child.y - this.child.y, this.target.child.x - this.child.x)
-  }
-}
-
 class Package {
-  constructor(currentNode, color) {
+  constructor(currentRouter, color) {
     this.color = color
     this.child = new PIXI.Sprite(Textures.package)
     this.child.tint = color
-    this.child.x = currentNode.child.x
-    this.child.y = currentNode.child.y
+    this.child.x = currentRouter.child.x
+    this.child.y = currentRouter.child.y
     this.child.anchor.set(0.5)
-    this.currentNode = currentNode
+    this.currentRouter = currentRouter
     this.transition = 0
-    this.targetNode = currentNode.target
+    this.targetRouter = currentRouter.target
     this.update = Package.states.inTransit
   }
 
@@ -97,7 +25,7 @@ class Package {
       console.log("Can't move. Already in transit.")
     } else {
       this.transition = 0
-      this.targetNode = target
+      this.targetRouter = target
       this.update = Package.states.inTransit
     }
   }
@@ -114,18 +42,12 @@ Package.states = {
     if (this.transition >= 1) {
       this.transition = 1
       console.log("Done!")
-      this.currentNode = this.targetNode
+      this.currentRouter = this.targetRouter
       this.update = Package.states.idle
-
-      this.currentNode.packageArrived && this.currentNode.packageArrived(this)
-
-      setTimeout(() => {
-        this.startTransition(this.currentNode.target)
-      }, 200)
-
+      this.currentRouter.packageArrived && this.currentRouter.packageArrived(this)
     }
-    box.x = Utils.lerp(this.currentNode.child.x, this.targetNode.child.x, this.transition)
-    box.y = Utils.lerp(this.currentNode.child.y, this.targetNode.child.y, this.transition)
+    box.x = Utils.lerp(this.currentRouter.child.x, this.targetRouter.child.x, this.transition)
+    box.y = Utils.lerp(this.currentRouter.child.y, this.targetRouter.child.y, this.transition)
   }
 }
 
@@ -220,8 +142,8 @@ class Game {
 }
 
 class Delivery {
-  constructor(fromNode, color, sinceNow) {
-    this.fromNode = fromNode,
+  constructor(fromRouter, color, sinceNow) {
+    this.fromRouter = fromRouter,
     this.color = color,
     this.sinceNow = sinceNow
   }
@@ -230,13 +152,20 @@ class Delivery {
 class PackageScheduler {
   constructor() {
     this.deliveries = []
+    this.routers = {}
+  }
+
+  processRoutersTick() {
+    for (let i in this.routers) {
+      this.routers[i].processTick()
+    }
   }
 
   scheduleNext() {
     if (this.deliveries.length) {
       const current = this.deliveries.shift()
       setTimeout(function() {
-        game.addComponent(new Package(current.fromNode, current.color))
+        game.addComponent(new Package(current.fromRouter, current.color))
         this.scheduleNext()
       }.bind(this), current.sinceNow / game.speed)
     }
@@ -247,62 +176,62 @@ class PackageScheduler {
   }
 }
 
-
-const scheduler = new PackageScheduler();
-
-function initLevel1() {
+function initLevel1(scheduler) {
   const sources = {
-    s1: new Source(400, 50, Colors.blue),
-    s2: new Source(600, 500, Colors.red),
-    s3: new Source(30, 500, Colors.yellow)
+    sBlue: new Source(400, 50, Colors.blue),
+    sRed: new Source(600, 500, Colors.red),
+    sYellow: new Source(30, 500, Colors.yellow)
   }
-  const nodes = {
-    a: new Node(200, 500),
-    b: new Node(400, 400),
-    c: new Node(200, 200),
-    d: new Node(500, 200)
+  const routers = {
+    a: new Router(200, 500),
+    b: new Router(400, 400),
+    c: new Router(200, 200),
+    d: new Router(500, 200),
+    e: new Router(600, 400)
   }
   const arcs = [
-    new Arc(nodes.a, nodes.b),
-    new Arc(nodes.b, nodes.c),
-    new Arc(nodes.c, nodes.a),
-    new Arc(nodes.c, nodes.d),
-    new Arc(sources.s1, nodes.d),
-    new Arc(sources.s2, nodes.a),
-    new Arc(sources.s3, nodes.c)
+    new Arc(routers.a, routers.b),
+    new Arc(routers.b, routers.c),
+    new Arc(routers.b, routers.e),
+    new Arc(routers.c, routers.a),
+    new Arc(routers.c, routers.d),
+    new Arc(sources.sBlue, routers.d),
+    new Arc(sources.sRed, routers.e),
+    new Arc(sources.sYellow, routers.c)
   ]
   const packages = [
-    new Package(nodes.a,Colors.blue),
-  //  new Package(nodes.b),
-  //  new Package(nodes.c)
+  //  new Package(routers.a,Colors.blue),
+  //  new Package(routers.b),
+  //  new Package(routers.c)
   ]
 
   scheduler.deliveries.push(
-    new Delivery(sources.s1, Colors.blue, 1000),
-    new Delivery(sources.s3, Colors.red, 2000),
-    new Delivery(sources.s2, Colors.yellow, 2000),
-    new Delivery(sources.s3, Colors.red, 1000),
-    new Delivery(sources.s2, Colors.blue, 2000),
-    new Delivery(sources.s1, Colors.red, 3000),
-    new Delivery(sources.s2, Colors.blue, 1000),
-    new Delivery(sources.s1, Colors.yellow, 1000),
-    new Delivery(sources.s3, Colors.red, 2000),
-    new Delivery(sources.s1, Colors.blue, 1000),
-    new Delivery(sources.s3, Colors.red, 2000),
-    new Delivery(sources.s2, Colors.yellow, 2000),
-    new Delivery(sources.s3, Colors.red, 1000),
-    new Delivery(sources.s2, Colors.blue, 2000),
-    new Delivery(sources.s1, Colors.red, 2000),
-    new Delivery(sources.s2, Colors.blue, 4000),
-    new Delivery(sources.s1, Colors.yellow, 1000),
-    new Delivery(sources.s3, Colors.red, 3000)
+    //new Delivery(sources.sBlue, Colors.blue, 1000),
+    new Delivery(sources.sYellow, Colors.red, 2000),
+    new Delivery(sources.sRed, Colors.yellow, 2000),
+    //new Delivery(sources.sYellow, Colors.red, 1000)
+    new Delivery(sources.sBlue, Colors.blue, 2000)
+    // new Delivery(sources.sBlue, Colors.red, 3000),
+    // new Delivery(sources.sRed, Colors.blue, 1000),
+    // new Delivery(sources.sBlue, Colors.yellow, 1000),
+    // new Delivery(sources.sYellow, Colors.red, 2000),
+    // new Delivery(sources.sBlue, Colors.blue, 1000),
+    // new Delivery(sources.sYellow, Colors.red, 2000),
+    // new Delivery(sources.sRed, Colors.yellow, 2000),
+    // new Delivery(sources.sYellow, Colors.red, 1000),
+    // new Delivery(sources.sRed, Colors.blue, 2000),
+    // new Delivery(sources.sBlue, Colors.red, 2000),
+    // new Delivery(sources.sRed, Colors.blue, 4000),
+    // new Delivery(sources.sBlue, Colors.yellow, 1000),
+    // new Delivery(sources.sYellow, Colors.red, 3000)
   )
+  scheduler.routers = routers
   scheduler.scheduleNext()
 
 
   return {
     sources,
-    nodes,
+    routers,
     arcs,
     packages
   }
@@ -314,7 +243,8 @@ const debugGraphics = new PIXI.Graphics()
 
 app.stage.addChild(debugGraphics)
 
-const level1 = initLevel1()
+const scheduler = new PackageScheduler();
+const level1 = initLevel1(scheduler)
 
 level1.arcs.forEach(arc => {
   game.addComponent(arc)
@@ -322,14 +252,14 @@ level1.arcs.forEach(arc => {
 for (let source in level1.sources) {
   game.addComponent(level1.sources[source])
 }
-for (let node in level1.nodes) {
-  game.addComponent(level1.nodes[node])
+for (let Router in level1.routers) {
+  game.addComponent(level1.routers[Router])
 }
 level1.packages.forEach(package => {
   game.addComponent(package)
 })
 
-
+sKey = keyboard(keyCodes.S)
 spaceKey = keyboard(keyCodes.SPACE)
 aKey = keyboard(keyCodes.A)
 
@@ -339,7 +269,11 @@ spaceKey.press = function () {
 aKey.press = () => {
   console.log("Doing stuff?")
   const package = level1.packages[0]
-  package.startTransition(package.currentNode.target)
+  package.startTransition(package.currentRouter.target)
+}
+
+sKey.press = () => {
+  scheduler.processRoutersTick()
 }
 
 

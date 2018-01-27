@@ -24,6 +24,7 @@
     },
     "globals": {
         "PIXI": false,
-        "Utils": false
+        "Utils": false,
+        "Router": false
     }
 }
