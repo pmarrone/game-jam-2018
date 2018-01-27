@@ -106,8 +106,6 @@ Package.states = {
     console.log(`In transit!! Transition: ${this.transition}`)
     this.transition +=  delta * 0.06
     const box = this.child
-    box.x = Utils.lerp(this.currentNode.child.x, this.targetNode.child.x, this.transition)
-    box.y = Utils.lerp(this.currentNode.child.y, this.targetNode.child.y, this.transition)
 
     if (this.transition >= 1) {
       this.transition = 1
@@ -119,6 +117,8 @@ Package.states = {
       }, 200)
 
     }
+    box.x = Utils.lerp(this.currentNode.child.x, this.targetNode.child.x, this.transition)
+    box.y = Utils.lerp(this.currentNode.child.y, this.targetNode.child.y, this.transition)
   }
 }
 
