@@ -6,7 +6,7 @@ class BlueExplosion {
       let val = i < 10 ? '0' + i : i;
 
       // magically works since the spritesheet was loaded with the pixi loader
-      blueExplosionFrames.push(PIXI.Texture.fromImage('/assets/animations/blue_explosion/bluspark_000' + val + '.png'));
+      blueExplosionFrames.push(PIXI.Texture.fromImage('assets/animations/blue_explosion/bluspark_000' + val + '.png'));
     }
 
     // create an AnimatedSprite (brings back memories from the days of Flash, right ?)
@@ -43,7 +43,7 @@ class RedExplosion {
     for (var i = 1; i < 24; i++) {
       let val = i < 10 ? '0' + i : i;
       // magically works since the spritesheet was loaded with the pixi loader
-      redExplosionFrames.push(PIXI.Texture.fromImage('/assets/animations/red_explosion/red_snakeplosion_000' + val + '.png'));
+      redExplosionFrames.push(PIXI.Texture.fromImage('assets/animations/red_explosion/red_snakeplosion_000' + val + '.png'));
     }
 
     // create an AnimatedSprite (brings back memories from the days of Flash, right ?)
