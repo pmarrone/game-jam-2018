@@ -118,11 +118,10 @@ class Source {
     if (packet.color === this.color) {
       console.log("Packet arrived correctly")
       packet.notifyDelivery()
-      new LoseExplosion(packet.x, packet.y,packet.color)
-      packet.notifyDelivery()
+      new WinExplosion(packet.x, packet.y, packet.color)
     } else {
       console.log("Packaged arrived at the wrong location")
-      new WinExplosion(packet.x, packet.y, packet.color)
+      new LoseExplosion(packet.x, packet.y,packet.color)
     }
     packet.destroy()
   }
