@@ -1,6 +1,6 @@
 const bigFont = new PIXI.TextStyle({
   fontFamily: 'Caslon',
-  fontSize: 36,
+  fontSize: 28,
   fontStyle: 'italic',
   fontWeight: 'bold',
   fill: ['#ffffff', '#00ff99'], // gradient
@@ -12,12 +12,12 @@ const bigFont = new PIXI.TextStyle({
   dropShadowAngle: Math.PI / 6,
   dropShadowDistance: 6,
   wordWrap: false,
-  wordWrapWidth: 600
+  wordWrapWidth: 900
 })
 
 const smallerFont = new PIXI.TextStyle({
   fontFamily: 'Caslon',
-  fontSize: 28,
+  fontSize: 24,
   fontWeight: 'bold',
   fill: ['#ffffff', '#00ff99'], // gradient
   stroke: '#4a1850',

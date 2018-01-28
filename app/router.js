@@ -56,6 +56,7 @@ class Router {
         largestDotProduct = dotProduct
         target = current
       }
+
     })
 
     //debugGraphics.lineStyle(4, 0xffd900, 1);
@@ -65,7 +66,11 @@ class Router {
 
   pointerUp(event) {Router
     const mousePosition = event.data.global
+    const previous = target
     this.target = this.findRouterByAngle(mousePosition.x, mousePosition.y)
+    if (previous !== target) {
+      Sfx.moveArrow.play()
+    }
   }
 
   update(delta) {

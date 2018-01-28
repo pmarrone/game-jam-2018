@@ -14,6 +14,13 @@ const Textures = {
   normalMovementFrames: prepareNormalMovementFrames()
 }
 
+const Sfx = {
+  music: new Howl({ src: ['assets/sounds/space.mp3'], autoplay: true, loop: true }),
+  fail:  new Howl({ src: ['assets/sounds/30 - Item_lvdw.mp3']}),
+  moveArrow:  new Howl({ src: ['assets/sounds/09 - Menu_slct.mp3']}),
+  ok:  new Howl({ src: ['assets/sounds/27 - Item1.mp3']})
+}
+
 function prepareNormalMovementFrames() {
   const frames = [];
   for (var i = 1; i < 48; i++) {

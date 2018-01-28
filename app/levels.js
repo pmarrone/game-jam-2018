@@ -1,5 +1,5 @@
 class Level {
-  constructor({ routers, arcs, sources, deliveries, scheduler, game, maxMoves = 3 * Object.keys(sources).length, minStars = Math.ceil(deliveries.length / 2) }) {
+  constructor({ routers, arcs, sources, deliveries, scheduler, game, maxMoves = 4 * Object.keys(sources).length, minStars = Math.ceil(deliveries.length * 0.60) }) {
     this.enabled = true
     this.routers = routers,
       this.sources = sources,

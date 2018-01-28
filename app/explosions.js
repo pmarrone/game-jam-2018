@@ -26,6 +26,7 @@ class LoseExplosion {
       app.stage.removeChild(loseExplosion)
     }
     loseExplosion.play();
+    Sfx.fail.play()
     
 
     app.stage.addChild(loseExplosion);
@@ -63,6 +64,7 @@ class WinExplosion {
       app.stage.removeChild(winExplosion)
     }
     winExplosion.play();
+    Sfx.ok.play()
     app.stage.addChild(winExplosion);
 
     // Animate the rotation
