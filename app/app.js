@@ -233,8 +233,13 @@ app.stage.addChild(debugGraphics)
 const scheduler = new PackageScheduler();
 scheduler.start()
 
+<<<<<<< HEAD
 //app.stage.addChild(new Menu(game))
 game.startGame(8)
+=======
+app.stage.addChild(new Menu(game))
+//game.startGame(1)
+>>>>>>> 8f6ba852872bd28d92507dc4b93b928edd887a5f
 //app.stage.addChild(new LevelUI(game))
 
 sKey = keyboard(keyCodes.S)
