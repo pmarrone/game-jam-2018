@@ -52,13 +52,14 @@ class Router {
     //this.child.x += Math.sin(new Date().getDate() / 100 + Math.random() * 6)
     //this.child.y += Math.sin(new Date().getDate() / 100 + Math.random() * 6)
     this.child.rotation = Math.atan2(this.target.child.y - this.child.y, this.target.child.x - this.child.x)
+
   }
 
   packageArrived(packet) {
     if (this.packets.length) {
       this.packets.forEach(packet => packet.destroy())
       packet.destroy()
-      new RedExplosion(packet.x, packet.y)
+      new WinExplosion(packet.x, packet.y,)
       return
     }
     this.packets.push(packet)

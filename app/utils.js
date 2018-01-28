@@ -10,8 +10,19 @@ const Textures = {
   router: PIXI.Texture.fromImage('assets/images/aguja 2.png'),
   source: PIXI.Texture.fromImage('assets/images/aro de asiento.png'),
   // source: PIXI.scale.y = 0.6,
-  package: PIXI.Texture.fromImage('assets/images/twinkle2.png')
+  package: PIXI.Texture.fromImage('assets/images/twinkle2.png'),
+  normalMovementFrames: prepareNormalMovementFrames()
 }
+
+function prepareNormalMovementFrames() {
+  const frames = [];
+  for (var i = 1; i < 48; i++) {
+    let val = i < 10 ? '0' + i : i;
+    // magically works since the spritesheet was loaded with the pixi loader
+    frames.push(PIXI.Texture.fromImage('assets/raw/minis/normal/NORMALMINI_000' + val + '.png'));
+  }
+  return frames
+} 
 
 
 const Utils = {

@@ -2,10 +2,16 @@ var app = new PIXI.Application(1024, 768, {backgroundColor : 0x00000000});
 
 document.body.appendChild(app.view);
 
+
+
 class Package {
   constructor(currentRouter, color) {
     this.color = color
-    this.child = new PIXI.Sprite(Textures.package)
+    this.child = new PIXI.extras.AnimatedSprite(Textures.normalMovementFrames)
+    this.child.animationSpeed = 0.7
+    this.child.loop = true
+    this.child.play()
+    
     this.child.tint = color
     this.child.scale.x  = .7
     this.child.scale.y  = .7
@@ -113,9 +119,11 @@ class Source {
       console.log("Packet arrived correctly")
       new BlueExplosion(packet.x, packet.y)
       packet.notifyDelivery()
+      new LoseExplosion(packet.x, packet.y,packet.color)
+      packet.notifyDelivery()
     } else {
       console.log("Packaged arrived at the wrong location")
-      new RedExplosion(packet.x, packet.y)
+      new WinExplosion(packet.x, packet.y, packet.color)
     }
     packet.destroy()
   }
@@ -242,6 +250,35 @@ sKey.press = () => {
   game.startGame(level)
 }
 
+class NormalMovement{
+  constructor (x,y){
+    
+
+    // create an AnimatedSprite (brings back memories from the days of Flash, right ?)
+    const normalMovement = new PIXI.extras.AnimatedSprite(normalMovementFrames);
+  //   /*
+  //    * An AnimatedSprite inherits all the properties of a PIXI sprite
+  //    * so you can change its position, its anchor, mask it, etc
+  //    */
+
+    normalMovement.x = x;
+    normalMovement.y = y;
+    normalMovement.anchor.set(0.5);
+    normalMovement.animationSpeed = 0.5;
+    normalMovement.loop = false
+    normalMovement.onComplete = function () {
+      // app.stage.removeChild(normalMovement)
+    }
+    normalMovement.play();
+    app.stage.addChild(normalMovement);
+
+    // Animate the rotation
+    app.ticker.add(function() {
+      normalMovement.rotation += 0.01;
+    });
+
+  }
+}
 
 // Listen for animate update
 
