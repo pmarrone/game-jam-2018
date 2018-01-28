@@ -197,79 +197,6 @@ class PackageScheduler {
   }
 }
 
-function initLevel1(scheduler) {
-  const sources = {
-    sBlue: new Source(680, 400, Colors.blue),
-    sRed: new Source(260, 300, Colors.red),
-    sYellow: new Source(630, 70, Colors.yellow)
-  }
-  const routers = {
-    a: new Router(130, 135),
-    b: new Router(290, 65),
-    c: new Router(380, 160),
-    d: new Router(340, 295),
-    e: new Router(170, 320),
-    f: new Router(130, 535),
-    g: new Router(400, 550),
-    h: new Router(700, 160),
-    ii: new Router(720, 260)
-  }
-  const arcs = [
-    new Arc(routers.a, routers.b),
-    new Arc(routers.a, routers.e),
-    new Arc(routers.b, routers.c),
-    new Arc(routers.c, routers.d),
-    new Arc(routers.c, routers.h),
-    new Arc(routers.d, routers.g),
-    new Arc(routers.g, routers.f),
-    new Arc(routers.f, routers.e),
-    new Arc(routers.h, routers.ii),
-    // new Arc(sources.sBlue, routers.d),
-    // new Arc(sources.sBlue, routers.d),
-    new Arc(sources.sBlue, routers.ii),
-    new Arc(sources.sRed, routers.d),
-    new Arc(sources.sRed, routers.e),
-    // new Arc(sources.sRed, routers.a),
-    new Arc(sources.sYellow, routers.h)
-  ]
-  const packages = [
-    //  new Package(routers.a,Colors.blue),
-    //  new Package(routers.b),
-    //  new Package(routers.c)
-  ]
-
-  scheduler.deliveries.push(
-    //new Delivery(sources.sBlue, Colors.blue, 1000),
-    new Delivery(sources.sYellow, Colors.red, 0),
-    new Delivery(sources.sRed, Colors.blue, 1000),
-    //new Delivery(sources.sYellow, Colors.red, 1000)
-    // new Delivery(sources.sBlue, Colors.red, 0)
-    // new Delivery(sources.sBlue, Colors.red, 3000),
-    // new Delivery(sources.sRed, Colors.blue, 1000),
-    new Delivery(sources.sBlue, Colors.yellow, 1000),
-    // new Delivery(sources.sYellow, Colors.red, 2000),
-    // new Delivery(sources.sBlue, Colors.blue, 1000),
-    // new Delivery(sources.sYellow, Colors.red, 2000),
-    // new Delivery(sources.sRed, Colors.yellow, 2000),
-    // new Delivery(sources.sYellow, Colors.red, 1000),
-    // new Delivery(sources.sRed, Colors.blue, 2000),
-    // new Delivery(sources.sBlue, Colors.red, 2000),
-    // new Delivery(sources.sRed, Colors.blue, 4000),
-    // new Delivery(sources.sBlue, Colors.yellow, 1000),
-    // new Delivery(sources.sYellow, Colors.red, 3000)
-  )
-  scheduler.routers = routers
-  scheduler.scheduleNext()
-
-
-  return {
-    sources,
-    routers,
-    arcs,
-    packages
-  }
-}
-
 const game = new Game()
 
 const debugGraphics = new PIXI.Graphics()
@@ -297,7 +224,7 @@ aKey.press = () => {
 sKey.press = () => {
   scheduler.processRoutersTick()
   currentLevel.end()
-  level = (level + 1) % 2
+  level = (level + 1) % levels.length
   currentLevel = levels[level](scheduler, game)
   currentLevel.init()
 }
