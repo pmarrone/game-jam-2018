@@ -163,6 +163,8 @@ function initLevel2(scheduler) {
     new Delivery(sources.sRed, Colors.blue, 0),
     new Delivery(sources.sBlue, Colors.red, 0),
   ]
+  routers.d.target = routers.c
+
   return new Level({
     sources,
     routers,
@@ -268,7 +270,7 @@ function initLevel6(scheduler, game) {
   const sources = {
     sBlue: new Source(680, 400, Colors.blue),
     sRed: new Source(120, 300, Colors.red),
-    sYellow: new Source(630, 70, Colors.yellow)
+    sYellow: new Source(870, 70, Colors.yellow)
   }
   const routers = {
     a: new Router(130, 135),
@@ -278,7 +280,7 @@ function initLevel6(scheduler, game) {
     e: new Router(333, 320),
     f: new Router(222, 535),
     g: new Router(555, 550),
-    h: new Router(333, 160),
+    h: new Router(733, 160),
     ii: new Router(715, 260)
   }
   const arcs = [
@@ -313,35 +315,26 @@ function initLevel6(scheduler, game) {
   })
 }
 
-
 function initLevel7(scheduler, game) {
   const sources = {
     sBlue: new Source(650, 50, Colors.blue),
     sRed: new Source(400, 680, Colors.red),
-    sYellow: new Source(400, 40, Colors.yellow)
+    sYellow: new Source(400, 220, Colors.yellow)
   }
   const routers = {
     a: new Router(930, 185),
-    // b: new Router(90, 65),
     c: new Router(120, 160),
     d: new Router(60, 465),
-    // e: new Router(170, 320),
     f: new Router(360, 435),
     g: new Router(400, 550),
-    h: new Router(580, 215),
-    // ii: new Router(820, 260)
+    h: new Router(510, 325),
   }
   const arcs = [
     new Arc(routers.a, routers.h),
-    // new Arc(routers.a, routers.e),
-    // new Arc(routers.b, routers.c),
-    // new Arc(routers.c, routers.d),
     new Arc(routers.f, routers.g),
     new Arc(routers.d, routers.c),
     new Arc(routers.d, routers.f),
-    // new Arc(routers.g, routers.f),
-    // new Arc(routers.f, routers.e),
-    // new Arc(routers.h, routers.ii),
+    new Arc(routers.h, routers.f),
     new Arc(sources.sBlue, routers.a),
     new Arc(sources.sRed, routers.d),
     new Arc(sources.sRed, routers.g),
