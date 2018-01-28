@@ -1,20 +1,4 @@
-class Menu extends PIXI.Container {
-  constructor(game) {
-    const startText = new PIXI.Text('Start game!', Menu.textStyle)
-    startText.x = 30
-    startText.y = 180
-    startText.buttonMode = true
-    startText.interactive = true
-    startText.on('pointerup', (event) => {
-      game.startGame()
-    });
-    this.startText = startText
-
-    this.addChild(this.startText)
-  }
-}
-
-Menu.textStyle = new PIXI.TextStyle({
+const bigFont = new PIXI.TextStyle({
   fontFamily: 'Arial',
   fontSize: 36,
   fontStyle: 'italic',
@@ -30,3 +14,35 @@ Menu.textStyle = new PIXI.TextStyle({
   wordWrap: true,
   wordWrapWidth: 440
 })
+
+class Menu extends PIXI.Container {
+  constructor(game) {
+    super()
+    const startText = new PIXI.Text('Start game!', bigFont)
+    startText.x = 30
+    startText.y = 180
+    startText.buttonMode = true
+    startText.interactive = true
+    startText.on('pointerup', (event) => {
+      game.startGame()
+    });
+    this.startText = startText
+    this.addChild(this.startText)
+  }
+}
+
+class LevelUI extends PIXI.Container {
+  constructor(game) {
+    super()
+    const startText = new PIXI.Text('Start game!', bigFont)
+    startText.x = 30
+    startText.y = 180
+    startText.buttonMode = true
+    startText.interactive = true
+    startText.on('pointerup', (event) => {
+      game.startGame()
+    });
+    this.startText = startText
+    this.addChild(this.startText)
+  }
+}

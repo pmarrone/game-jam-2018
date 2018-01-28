@@ -6,6 +6,10 @@ class Level {
     this.deliveries = deliveries
     this.game = game,
     this.scheduler = scheduler
+    
+    this.totalStars = deliveries.length
+    this.remainingStars = this.totalStars
+    this.deliveredStars = 0
   }
 
   init() {
@@ -15,6 +19,7 @@ class Level {
     let bgd = PIXI.Sprite.fromImage('assets/raw/fondos/fondo1.png');
     bgd.scale.x = 1.5;
     bgd.scale.y = 1.5;
+    bgd.tint = 0x776776
     app.stage.addChild(bgd);
 
     this.arcs.forEach(arc => {
@@ -34,7 +39,20 @@ class Level {
       this.game.removeComponent(component)
     })
   }
+
+  packageDestroyed() {
+    this.remainingStars -= 1
+    if (this.remainingStars === 0) {
+      console.log("Level ended with " + this.deliveredStars + " delivered stars")
+      this.end()
+    }
+  }
+
+  packageDelivered() {
+    this.deliveredStars += 1
+  }
 }
+
 
 function initLevel1(scheduler, game) {
   const sources = {

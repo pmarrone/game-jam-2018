@@ -22,11 +22,17 @@ class Package {
     return this.child.x
   }
 
+  
   get y() {
     return this.child.y
   }
+  
+  notifyDelivery() {
+    game.currentLevel.packageDelivered()
+  }
 
   destroy () {
+    game.currentLevel.packageDestroyed()
     game.removeComponent(this)
   }
 
@@ -106,6 +112,7 @@ class Source {
     if (packet.color === this.color) {
       console.log("Packet arrived correctly")
       new BlueExplosion(packet.x, packet.y)
+      packet.notifyDelivery()
     } else {
       console.log("Packaged arrived at the wrong location")
       new RedExplosion(packet.x, packet.y)
@@ -116,6 +123,7 @@ class Source {
 
 class Game {
   constructor() {
+    this.currentLevel = null
     this.speed = 1
     this.toRemove = []
     this.components = []
@@ -156,6 +164,8 @@ class Game {
     this.components = []
     app.stage.removeChildren()
     let currentLevel = levels[level](scheduler, game)
+    this.currentLevel = currentLevel
+    this.levelIndex = level
     currentLevel.init()
   }
 }
@@ -222,16 +232,14 @@ spaceKey.press = function () {
   debugGraphics.clear()
 }
 aKey.press = () => {
-  console.log("Doing stuff?")
   const package = level1.packages[0]
 }
 
 sKey.press = () => {
   scheduler.processRoutersTick()
-  currentLevel.end()
-  level = (level + 1) % levels.length
-  currentLevel = levels[level](scheduler, game)
-  currentLevel.init()
+  game.currentLevel.end()
+  const level = (game.levelIndex + 1) % levels.length
+  game.startGame(level)
 }
 
 
