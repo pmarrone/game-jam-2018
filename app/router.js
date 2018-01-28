@@ -3,12 +3,12 @@ class Router {
 
     this.packets = []
     const child = new PIXI.Sprite(Textures.router)
-    const aaaa = new PIXI.Sprite(Textures.ring)
-    aaaa.x = -45.1
-    aaaa.y = -38.9
-    aaaa.scale.x = 1.5
-    aaaa.scale.y = 1.5
-    child.addChild(aaaa)
+    const rings = new PIXI.Sprite(Textures.ring)
+    rings.x = -45.1
+    rings.y = -38
+    rings.scale.x = 1.5
+    rings.scale.y = 1.5
+    child.addChild(rings)
     child.interactive = true
     child.hitArea = new PIXI.Circle(0, 0, 80);
     // this.ring.scale = 2
