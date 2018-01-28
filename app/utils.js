@@ -7,7 +7,7 @@ const Colors = {
 }
 
 const Textures = {
-  router: PIXI.Texture.fromImage('assets/images/arrow.png'),
+  router: PIXI.Texture.fromImage('assets/images/aguja2.png'),
   source: PIXI.Texture.fromImage('assets/images/aroconinsidedark.png'),
   package: PIXI.Texture.fromImage('assets/images/twinkle2.png'),
   ring: PIXI.Texture.fromImage('assets/images/aro de asiento.png'),

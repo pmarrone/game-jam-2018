@@ -1,5 +1,6 @@
 class Level {
-  constructor({ routers, arcs, sources, deliveries, scheduler, game }) {
+  constructor({ routers, arcs, sources, deliveries, scheduler, game, maxMoves = 3 * Object.keys(sources).length, minStars = Math.ceil(deliveries.length / 2) }) {
+    this.enabled = true
     this.routers = routers,
       this.sources = sources,
       this.arcs = arcs,
@@ -10,13 +11,16 @@ class Level {
     this.totalStars = deliveries.length
     this.remainingStars = this.totalStars
     this.deliveredStars = 0
+    this.maxMoves = maxMoves
+    this.currentMoves = 0
+    this.minStars = minStars
   }
 
   init() {
     this.scheduler.routers = this.routers
     this.scheduler.deliveries.push(...this.deliveries)
 
-    let bgd = PIXI.Sprite.fromImage('assets/raw/fondos/fondo1.png');
+    let bgd = PIXI.Sprite.fromImage('assets/raw/fondos/fondo2.png');
     bgd.scale.x = 1.5;
     bgd.scale.y = 1.5;
     bgd.tint = 0x776776
@@ -58,7 +62,22 @@ class Level {
     }
   }
 
+  processNextTick() {
+    this.currentMoves++
+    if (this.currentMoves >= this.maxMoves) {
+      for (let i in this.game.components) {
+        if (this.game.components[i] instanceof Package) {
+          const packet = this.game.components[i]
+          packet.destroy()
+          new LoseExplosion(packet.x, packet.y, Colors.orange)
+        }
+      }
+      this.showLevelComplete()
+    }
+  }
+
   showLevelComplete() {
+    this.enabled = false
     app.stage.addChild(new LevelUI(game))
 
   }
@@ -106,10 +125,10 @@ function initLevel3(scheduler) {
   }
   const routers = {
     a: new Router(235, 185),
-    b: new Router(380, 235),
+    b: new Router(380, 40),
     c: new Router(500, 300),
-    d: new Router(520, 430),
-    e: new Router(670, 450)
+    d: new Router(340, 450),
+    e: new Router(700, 600)
   }
   const arcs = [
     new Arc(routers.a, routers.b),

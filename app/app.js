@@ -122,7 +122,7 @@ class Source {
       packet.notifyDelivery()
       new WinExplosion(packet.x, packet.y, packet.color)
     } else {
-      console.log("Packaged arrived at the wrong location")
+      console.log("Star arrived to the wrong location")
       new LoseExplosion(packet.x, packet.y, Colors.orange)
     }
     packet.destroy()
@@ -195,6 +195,7 @@ class PackageScheduler {
   processTick() {
     this.processRoutersTick()
     this.processNextDeliveries()
+    game.currentLevel && game.currentLevel.processNextTick()
   }
 
   processRoutersTick() {
@@ -229,6 +230,7 @@ app.stage.addChild(debugGraphics)
 const scheduler = new PackageScheduler();
 scheduler.start()
 
+//app.stage.addChild(new Menu(game))
 //app.stage.addChild(new Menu(game))
 game.startGame(1)
 //app.stage.addChild(new LevelUI(game))

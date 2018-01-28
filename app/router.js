@@ -2,21 +2,30 @@ class Router {
   constructor(x, y) {
 
     this.packets = []
-    const child = new PIXI.Sprite(Textures.router)
+    const child = new PIXI.Container()
+    const pointer = new PIXI.Sprite(Textures.router)
+    this.pointer = pointer
     const rings = new PIXI.Sprite(Textures.ring)
+
     rings.x = -45.1
     rings.y = -38
     rings.scale.x = 1.5
     rings.scale.y = 1.5
     child.addChild(rings)
+    pointer.scale.set(1.2, 1.2)
+    // pointer.tint = Colors.green
+ 
+    child.addChild(pointer)
+
+
     child.interactive = true
-    child.hitArea = new PIXI.Circle(0, 0, 80);
+    child.hitArea = new PIXI.Circle(0, 0, 60);
     // this.ring.scale = 2
     this.child = child
-    this.child.anchor.set(.25,.5)
+    pointer.anchor.set(.25,.5)
+    pointer
     this.dst = []
-    this.child.scale.x  = 1.2
-    this.child.scale.y  = 1.2
+
     this.child.x = x
     this.child.y = y
     
@@ -62,8 +71,7 @@ class Router {
   update(delta) {
     //this.child.x += Math.sin(new Date().getDate() / 100 + Math.random() * 6)
     //this.child.y += Math.sin(new Date().getDate() / 100 + Math.random() * 6)
-    this.child.rotation = Math.atan2(this.target.child.y - this.child.y, this.target.child.x - this.child.x)
-
+    this.pointer.rotation = Math.atan2(this.target.child.y - this.child.y, this.target.child.x - this.child.x)
   }
 
   packageArrived(packet) {
