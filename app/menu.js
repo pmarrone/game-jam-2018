@@ -34,9 +34,23 @@ const smallerFont = new PIXI.TextStyle({
 class Menu extends PIXI.Container {
   constructor(game) {
     super()
-    const startText = new PIXI.Text('Start game!', bigFont)
-    startText.x = 30
-    startText.y = 180
+    //const startText = new PIXI.Text('Start game!', bigFont)
+    const startText = new PIXI.Container
+    startText.hitArea = new PIXI.Rectangle(0, 0, 220, 70);
+    let bgd = new PIXI.extras.AnimatedSprite(Textures.splashFrames);
+
+    /*
+     * An AnimatedSprite inherits all the properties of a PIXI sprite
+     * so you can change its position, its anchor, mask it, etc
+     */
+    bgd.animationSpeed = 0.2;
+    bgd.loop = true
+    bgd.scale.x = 1.28;
+    bgd.scale.y = 1.28;
+    bgd.play()
+    this.addChild(bgd);
+    startText.x = 400
+    startText.y = 570
     startText.buttonMode = true
     startText.interactive = true
     startText.on('pointerup', (event) => {

@@ -11,7 +11,19 @@ const Textures = {
   source: PIXI.Texture.fromImage('assets/images/aroconinsidedark.png'),
   package: PIXI.Texture.fromImage('assets/images/twinkle2.png'),
   ring: PIXI.Texture.fromImage('assets/images/aro de asiento.png'),
-  normalMovementFrames: prepareNormalMovementFrames()
+  normalMovementFrames: prepareNormalMovementFrames(),
+  splashFrames: prepareSplashFrames()
+}
+
+function prepareSplashFrames() {
+  const frames = [];
+  for (var i = 1; i < 10; i++) {
+    let val = 1 + i * 4
+    val = val < 10 ? '0' + val : val;
+    // magically works since the spritesheet was loaded with the pixi loader
+    frames.push(PIXI.Texture.fromImage('assets/animations/splash/INICIO_000' + val + '.png'));
+  }
+  return frames
 }
 
 const Sfx = {
