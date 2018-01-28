@@ -1,4 +1,4 @@
-var app = new PIXI.Application(800, 600, {backgroundColor : 0x000000});
+var app = new PIXI.Application(1024, 768, {backgroundColor : 0x000000});
 
 document.body.appendChild(app.view);
 
@@ -150,7 +150,7 @@ class Game {
     }
   }
 }
-
+ 
 class Delivery {
   constructor(fromRouter, color, sinceNow) {
     this.fromRouter = fromRouter,
@@ -163,8 +163,11 @@ class PackageScheduler {
   constructor() {
     this.deliveries = []
     this.routers = {}
-    
-    setInterval(() => this.processRoutersTick(), 1500)
+  }
+
+  processTick() {
+    this.processRoutersTick()
+    this.processNextDeliveries()
   }
 
   processRoutersTick() {
@@ -173,103 +176,36 @@ class PackageScheduler {
     }
   }
 
-  scheduleNext() {
-    if (this.deliveries.length) {
-      const current = this.deliveries.shift()
-      setTimeout(function() {
+  processNextDeliveries() {
+    let processDeliveries = true
+    while (this.deliveries.length && processDeliveries) {
+      const current = this.deliveries[0]
+      if (current.sinceNow <= 0) {
+        this.deliveries.shift()
         game.addComponent(new Package(current.fromRouter, current.color))
-        this.scheduleNext()
-      }.bind(this), current.sinceNow / game.speed)
+      } else {
+        current.sinceNow--
+        processDeliveries = false
+      } 
     }
   }
 
   start() {
-    this.scheduleNext()
-  }
-}
-
-function initLevel1(scheduler) {
-  const sources = {
-    sBlue: new Source(400, 50, Colors.blue),
-    sRed: new Source(600, 500, Colors.red),
-    sYellow: new Source(30, 500, Colors.yellow)
-  }
-  const routers = {
-    a: new Router(200, 500),
-    b: new Router(400, 400),
-    c: new Router(200, 200),
-    d: new Router(500, 200),
-    e: new Router(600, 400)
-  }
-  const arcs = [
-    new Arc(routers.a, routers.b),
-    new Arc(routers.b, routers.c),
-    new Arc(routers.b, routers.e),
-    new Arc(routers.c, routers.a),
-    new Arc(routers.c, routers.d),
-    new Arc(sources.sBlue, routers.d),
-    new Arc(sources.sRed, routers.e),
-    new Arc(sources.sYellow, routers.c)
-  ]
-  const packages = [
-  //  new Package(routers.a,Colors.blue),
-  //  new Package(routers.b),
-  //  new Package(routers.c)
-  ]
-
-  scheduler.deliveries.push(
-    //new Delivery(sources.sBlue, Colors.blue, 1000),
-    new Delivery(sources.sYellow, Colors.red, 0),
-    new Delivery(sources.sRed, Colors.yellow, 0),
-    //new Delivery(sources.sYellow, Colors.red, 1000)
-    new Delivery(sources.sBlue, Colors.blue, 0)
-    // new Delivery(sources.sBlue, Colors.red, 3000),
-    // new Delivery(sources.sRed, Colors.blue, 1000),
-    // new Delivery(sources.sBlue, Colors.yellow, 1000),
-    // new Delivery(sources.sYellow, Colors.red, 2000),
-    // new Delivery(sources.sBlue, Colors.blue, 1000),
-    // new Delivery(sources.sYellow, Colors.red, 2000),
-    // new Delivery(sources.sRed, Colors.yellow, 2000),
-    // new Delivery(sources.sYellow, Colors.red, 1000),
-    // new Delivery(sources.sRed, Colors.blue, 2000),
-    // new Delivery(sources.sBlue, Colors.red, 2000),
-    // new Delivery(sources.sRed, Colors.blue, 4000),
-    // new Delivery(sources.sBlue, Colors.yellow, 1000),
-    // new Delivery(sources.sYellow, Colors.red, 3000)
-  )
-  scheduler.routers = routers
-  scheduler.scheduleNext()
-
-
-  return {
-    sources,
-    routers,
-    arcs,
-    packages
+    setInterval(() => this.processTick(), 1500)
   }
 }
 
 const game = new Game()
 
 const debugGraphics = new PIXI.Graphics()
-
 app.stage.addChild(debugGraphics)
-
 const scheduler = new PackageScheduler();
-const level1 = initLevel1(scheduler)
+scheduler.start()
 
-level1.arcs.forEach(arc => {
-  game.addComponent(arc)
-})
-for (let source in level1.sources) {
-  game.addComponent(level1.sources[source])
-}
-for (let Router in level1.routers) {
-  game.addComponent(level1.routers[Router])
-}
-level1.packages.forEach(package => {
-  game.addComponent(package)
-})
+
+let level = 1
+let currentLevel = levels[level](scheduler, game)
+currentLevel.init()
 
 sKey = keyboard(keyCodes.S)
 spaceKey = keyboard(keyCodes.SPACE)
@@ -285,6 +221,10 @@ aKey.press = () => {
 
 sKey.press = () => {
   scheduler.processRoutersTick()
+  currentLevel.end()
+  level = (level + 1) % 2
+  currentLevel = levels[level](scheduler, game)
+  currentLevel.init()
 }
 
 

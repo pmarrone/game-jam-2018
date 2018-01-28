@@ -25,6 +25,7 @@
     "globals": {
         "PIXI": false,
         "Utils": false,
-        "Router": false
+        "Router": false,
+        "Level": false
     }
 }
