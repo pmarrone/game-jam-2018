@@ -66,9 +66,9 @@ class Router {
 
   pointerUp(event) {Router
     const mousePosition = event.data.global
-    const previous = target
+    const previous = this.target
     this.target = this.findRouterByAngle(mousePosition.x, mousePosition.y)
-    if (previous !== target) {
+    if (previous !== this.target) {
       Sfx.moveArrow.play()
     }
   }
