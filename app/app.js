@@ -234,8 +234,12 @@ const scheduler = new PackageScheduler();
 scheduler.start()
 
 //app.stage.addChild(new Menu(game))
+<<<<<<< c439a18f742f519f37e5a73be4b78225f25f6d46
 //app.stage.addChild(new Menu(game))
 game.startGame(1)
+=======
+game.startGame(8)
+>>>>>>> New Level 9
 //app.stage.addChild(new LevelUI(game))
 
 sKey = keyboard(keyCodes.S)

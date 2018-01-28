@@ -319,7 +319,7 @@ function initLevel6(scheduler, game) {
     new Delivery(sources.sYellow, Colors.red, 0),
     new Delivery(sources.sRed, Colors.blue, 1),
     new Delivery(sources.sBlue, Colors.yellow, 1)
-    
+
   ]
 
   return new Level({
@@ -376,6 +376,132 @@ function initLevel7(scheduler, game) {
   })
 }
 
+function initLevel8(scheduler, game) {
+  const sources = {
+    sBlue: new Source(444, 325, Colors.blue),
+    sRed: new Source(115, 560, Colors.red),
+    sYellow: new Source(870, 70, Colors.yellow),
+    sPurple: new Source(80, 70, Colors.purple)
+  }
+  const routers = {
+    // a: new Router(140, 50),
+    b: new Router(190, 135),
+    c: new Router(310, 260),
+    d: new Router(590, 240),
+    e: new Router(733, 420),
+    f: new Router(252, 455),
+    g: new Router(755, 150),
+    h: new Router(433, 160),
+    ii: new Router(880, 500)
+  }
+  const arcs = [
+    // new Arc(routers.a, routers.b),
+    new Arc(routers.b, routers.c),
+    new Arc(routers.h, routers.d),
+    new Arc(routers.c, routers.h),
+    // new Arc(routers.f, routers.sRed),
+    // new Arc(routers.f, routers.sBlue),
+    new Arc(routers.f, routers.e),
+    new Arc(routers.g, routers.d),
+    new Arc(routers.e, routers.ii),
+    new Arc(routers.d, routers.e),
+    new Arc(routers.c, routers.f),
+    // new Arc(routers.c, routers.ii),
+    new Arc(sources.sBlue, routers.c),
+    new Arc(sources.sBlue, routers.d),
+    new Arc(sources.sBlue, routers.e),
+    new Arc(sources.sBlue, routers.f),
+    new Arc(sources.sRed, routers.f),
+    new Arc(sources.sYellow, routers.g),
+    new Arc(sources.sPurple, routers.b)
+  ]
+
+  const deliveries = [
+    new Delivery(sources.sYellow, Colors.red, 0),
+    new Delivery(sources.sRed, Colors.blue, 1),
+    new Delivery(sources.sBlue, Colors.yellow, 1),
+    new Delivery(sources.sPurple, Colors.purple, 1)
+
+  ]
+
+  return new Level({
+    sources,
+    routers,
+    arcs,
+    deliveries,
+    scheduler,
+    game
+  })
+}
+
+function initLevel9(scheduler, game) {
+  const sources = {
+    sBlue: new Source(895, 510, Colors.blue),
+    sRed: new Source(935, 90, Colors.red),
+    sYellow: new Source(535, 235, Colors.yellow),
+    sPurple: new Source(140, 70, Colors.purple)
+  }
+  const routers = {
+    a: new Router(110, 520),
+    b: new Router(160, 645),
+    c: new Router(170, 390),
+    d: new Router(240, 230),
+    e: new Router(433, 580),
+    f: new Router(672, 555),
+    g: new Router(635, 180),
+    h: new Router(683, 345),
+    ii: new Router(780, 110),
+    j: new Router(822, 245),
+    k: new Router(934, 185)
+  }
+  const arcs = [
+    new Arc(routers.a, routers.b),
+    new Arc(routers.a, routers.c),
+    new Arc(routers.c, routers.d),
+    new Arc(routers.c, routers.h),
+    // new Arc(routers.d, routers.sRed),
+    new Arc(routers.h, routers.f),
+    new Arc(routers.h, routers.j),
+    new Arc(routers.g, routers.ii),
+    new Arc(routers.ii, routers.j),
+    // new Arc(routers.ii, routers.sBlue),
+    new Arc(routers.c, routers.e),
+    new Arc(routers.j, routers.k),
+    // new Arc(routers.j, routers.hsYellow),
+    new Arc(sources.sRed, routers.ii),
+    // new Arc(sources.sBlue, routers.d),
+    new Arc(sources.sBlue, routers.h),
+    new Arc(sources.sRed, routers.k),
+    // new Arc(sources.sRed, routers.g),
+    new Arc(sources.sYellow, routers.g),
+    new Arc(sources.sYellow, routers.h),
+    new Arc(sources.sYellow, routers.d),
+    new Arc(sources.sPurple, routers.d)
+  ]
+
+  sources.sRed.target = routers.k
+  // routers.d.target = routers.c
+  
+  
+  const deliveries = [
+    new Delivery(sources.sYellow, Colors.red, 0),
+    new Delivery(sources.sRed, Colors.blue, 1),
+    new Delivery(sources.sBlue, Colors.yellow, 1),
+    new Delivery(sources.sPurple, Colors.purple, 1)
+
+  ]
+
+  return new Level({
+    sources,
+    routers,
+    arcs,
+    deliveries,
+    scheduler,
+    game
+  })
+}
+
+
 const levels = [
   initLevel1,
   initLevel2,
@@ -383,7 +509,9 @@ const levels = [
   initLevel4,
   initLevel5,
   initLevel6,
-  initLevel7
+  initLevel7,
+  initLevel8,
+  initLevel9
 
 ]
 
