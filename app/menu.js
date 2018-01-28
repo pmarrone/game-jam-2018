@@ -1,5 +1,5 @@
 const bigFont = new PIXI.TextStyle({
-  fontFamily: 'Arial',
+  fontFamily: 'Caslon',
   fontSize: 36,
   fontStyle: 'italic',
   fontWeight: 'bold',
@@ -16,7 +16,7 @@ const bigFont = new PIXI.TextStyle({
 })
 
 const smallerFont = new PIXI.TextStyle({
-  fontFamily: 'Arial',
+  fontFamily: 'Caslon',
   fontSize: 28,
   fontWeight: 'bold',
   fill: ['#ffffff', '#00ff99'], // gradient
@@ -77,14 +77,20 @@ class Hud extends PIXI.Container {
     const hudY = 700
     this.collected = new HudLabel(() => 'Stars collected: ' + game.currentLevel.deliveredStars + "/" + game.currentLevel.totalStars, 30, hudY)
     this.starsLeft = new HudLabel(() => 'Stars left: ' + game.currentLevel.remainingStars + "/" + game.currentLevel.totalStars, 400, hudY)
+    this.movesLeft = new HudLabel(() => 'Remaining steps: ' + (game.currentLevel.maxMoves - game.currentLevel.currentMoves), 30, hudY - 80)
+    this.level = new HudLabel(() => 'Level ' + (game.levelIndex + 1), 890, 10)
     this.addChild(this.collected)
     this.addChild(this.starsLeft)
+    this.addChild(this.movesLeft)
+    this.addChild(this.level)
     this.addChild(new UIButton('Retry', 800, hudY, () => game.startGame(game.levelIndex)))
   }
 
   update() {
     this.starsLeft.update()
     this.collected.update()
+    this.movesLeft.update()
+    this.level.update()
   }
 }
 

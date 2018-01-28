@@ -48,9 +48,6 @@ class Level {
 
   end() {
     this.scheduler.deliveries = []
-    this.game.components.forEach(component => {
-      this.game.removeComponent(component)
-    })
   }
 
   packageDestroyed() {

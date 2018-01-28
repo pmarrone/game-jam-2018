@@ -231,8 +231,11 @@ const scheduler = new PackageScheduler();
 scheduler.start()
 
 //app.stage.addChild(new Menu(game))
-//app.stage.addChild(new Menu(game))
+<<<<<<< caef2c0f92278e119ad32f7e1c33814855381810
 game.startGame(1)
+=======
+game.startGame()
+>>>>>>> General improvements
 //app.stage.addChild(new LevelUI(game))
 
 sKey = keyboard(keyCodes.S)
@@ -243,10 +246,11 @@ spaceKey.press = function () {
   debugGraphics.clear()
 }
 aKey.press = () => {
-  // const package = level1.packages[0]
+  const package = level1.packages[0]
 }
 
 sKey.press = () => {
+  scheduler.processRoutersTick()
   game.currentLevel.end()
   const level = (game.levelIndex + 1) % levels.length
   game.startGame(level)
