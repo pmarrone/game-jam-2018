@@ -8,9 +8,9 @@ const Colors = {
 
 const Textures = {
   router: PIXI.Texture.fromImage('assets/images/aguja 2.png'),
-  source: PIXI.Texture.fromImage('assets/images/aro de asiento.png'),
-  // source: PIXI.scale.y = 0.6,
+  source: PIXI.Texture.fromImage('assets/images/aroconinsidedark.png'),
   package: PIXI.Texture.fromImage('assets/images/twinkle2.png'),
+  ring: PIXI.Texture.fromImage('assets/images/aro de asiento.png'),
   normalMovementFrames: prepareNormalMovementFrames()
 }
 

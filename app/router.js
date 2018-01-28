@@ -3,14 +3,25 @@ class Router {
 
     this.packets = []
     const child = new PIXI.Sprite(Textures.router)
+    const aaaa = new PIXI.Sprite(Textures.ring)
+    aaaa.x = -45.1
+    aaaa.y = -38.9
+    aaaa.scale.x = 1.5
+    aaaa.scale.y = 1.5
+    child.addChild(aaaa)
     child.interactive = true
-    child.hitArea = new PIXI.Circle(0, 0, 100);
+    child.hitArea = new PIXI.Circle(0, 0, 80);
+    // this.ring.scale = 2
     this.child = child
     this.child.anchor.set(.25,.5)
     this.dst = []
-
+    this.child.scale.x  = 1.5
+    this.child.scale.y  = 1.5
     this.child.x = x
     this.child.y = y
+    
+    // this.aaaa.scale.x = 2
+    // this.aaaa.scale.y = 2
     child.on('pointerdown', function(event) {
 
     })

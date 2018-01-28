@@ -93,7 +93,7 @@ class Arc {
   draw() {
     const line = this.line, a = this.a, b = this.b
     line.clear()
-    line.lineStyle(4, 0x0000d9, 1);
+    line.lineStyle(4, 0xAAAAAA, 1);
     line.moveTo(a.child.x, a.child.y)
     line.lineTo(b.child.x, b.child.y)
   }
@@ -106,6 +106,8 @@ class Source {
     this.child.x = x 
     this.child.y = y 
     this.child.anchor.set(0.5)
+    this.child.scale.x  = 1.2
+    this.child.scale.y  = 1.2
     this.dst = []
     this.child.tint = color
   }
