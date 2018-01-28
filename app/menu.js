@@ -49,10 +49,11 @@ class Menu extends PIXI.Container {
 
 class LevelUI extends PIXI.Container {
   constructor(game) {
+    const offsetY = 300
     super()
     const levelCompleted = new PIXI.Text('Level completed', bigFont)
     levelCompleted.x = 30
-    levelCompleted.y = 180
+    levelCompleted.y = 180 + offsetY
     levelCompleted.buttonMode = true
     levelCompleted.interactive = true
     levelCompleted.on('pointerup', (event) => {
@@ -62,13 +63,31 @@ class LevelUI extends PIXI.Container {
 
     const score = new PIXI.Text('Level completed with ' + game.currentLevel.deliveredStars + "/" + game.currentLevel.totalStars + " delivered stars.", smallerFont )
     score.x = 30
-    score.y = 240
+    score.y = 240 + offsetY
     this.addChild(score)
     const buttonsHeight = 340
-    this.addChild(new UIButton('Retry', 30, buttonsHeight, () => game.startGame(game.levelIndex)))
-    this.addChild(new UIButton('Next level', 190, buttonsHeight, () => game.startGame(game.levelIndex + 1)))
+    this.addChild(new UIButton('Retry', 30, buttonsHeight + offsetY, () => game.startGame(game.levelIndex)))
+    this.addChild(new UIButton('Next level', 190, buttonsHeight + offsetY, () => game.startGame(game.levelIndex + 1)))
   }
 }
+
+class Hud extends PIXI.Container {
+  constructor(game) {
+    super()
+    const hudY = 700
+    this.collected = new HudLabel(() => 'Stars collected: ' + game.currentLevel.deliveredStars + "/" + game.currentLevel.totalStars, 30, hudY)
+    this.starsLeft = new HudLabel(() => 'Stars left: ' + game.currentLevel.remainingStars + "/" + game.currentLevel.totalStars, 400, hudY)
+    this.addChild(this.collected)
+    this.addChild(this.starsLeft)
+    this.addChild(new UIButton('Retry', 800, hudY, () => game.startGame(game.levelIndex)))
+  }
+
+  update() {
+    this.starsLeft.update()
+    this.collected.update()
+  }
+}
+
 
 class UIButton extends PIXI.Text {
   constructor(text, x, y, listener) {
@@ -80,5 +99,18 @@ class UIButton extends PIXI.Text {
     this.on('pointerup', (event) => {
       listener()
     });
+  }
+}
+
+class HudLabel extends PIXI.Text {
+  constructor(textExpression, x, y) {
+    super(textExpression(), bigFont)
+    this.textExpression = textExpression
+    this.x = x
+    this.y = y
+  }
+
+  update() {
+    this.text = this.textExpression()
   }
 }

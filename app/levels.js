@@ -31,6 +31,15 @@ class Level {
     for (let router in this.routers) {
       this.game.addComponent(this.routers[router])
     }
+
+    const levelHud = new Hud(this.game)
+    this.hudComponent = {
+      child: levelHud,
+      update() {
+        levelHud.update()
+      }
+    }
+    this.game.addComponent(this.hudComponent)
   }
 
   end() {
@@ -44,6 +53,7 @@ class Level {
     this.remainingStars -= 1
     if (this.remainingStars === 0) {
       this.showLevelComplete()
+      this.game.removeComponent(this.hudComponent)
       console.log("Level ended with " + this.deliveredStars + " delivered stars")
     }
   }
@@ -89,7 +99,7 @@ function initLevel1(scheduler, game) {
   })
 }
 
-function initLevel2(scheduler) {
+function initLevel3(scheduler) {
   const sources = {
     sBlue: new Source(710, 300, Colors.blue),
     sRed: new Source(100, 150, Colors.red),
@@ -115,6 +125,7 @@ function initLevel2(scheduler) {
 
   const deliveries = [
     new Delivery(sources.sRed, Colors.blue, 0),
+    new Delivery(sources.sBlue, Colors.red, 3),
   ]
 
   return new Level({
@@ -128,7 +139,7 @@ function initLevel2(scheduler) {
 
 }
 
-function initLevel3(scheduler) {
+function initLevel2(scheduler) {
   const sources = {
     sBlue: new Source(480, 400, Colors.blue),
     sRed: new Source(280, 500, Colors.red),
@@ -150,6 +161,7 @@ function initLevel3(scheduler) {
 
   const deliveries = [
     new Delivery(sources.sRed, Colors.blue, 0),
+    new Delivery(sources.sBlue, Colors.red, 0),
   ]
   return new Level({
     sources,
@@ -187,7 +199,10 @@ function initLevel4(scheduler, game) {
   const deliveries = [
     new Delivery(sources.sYellow, Colors.red, 0),
     new Delivery(sources.sRed, Colors.yellow, 1),
-    new Delivery(sources.sBlue, Colors.redsss, 1),
+    new Delivery(sources.sBlue, Colors.red, 1),
+    new Delivery(sources.sYellow, Colors.blue, 3),
+    new Delivery(sources.sBlue, Colors.yellow, 2),
+    new Delivery(sources.sRed, Colors.blue, 0),
   ]
 
   return new Level({
@@ -249,7 +264,6 @@ function initLevel5(scheduler, game) {
   })
 }
 
-
 function initLevel6(scheduler, game) {
   const sources = {
     sBlue: new Source(680, 400, Colors.blue),
@@ -286,6 +300,7 @@ function initLevel6(scheduler, game) {
     new Delivery(sources.sYellow, Colors.red, 0),
     new Delivery(sources.sRed, Colors.blue, 1),
     new Delivery(sources.sBlue, Colors.yellow, 1)
+    
   ]
 
   return new Level({
@@ -297,9 +312,6 @@ function initLevel6(scheduler, game) {
     game
   })
 }
-
-
-
 
 const levels = [
   initLevel1,
