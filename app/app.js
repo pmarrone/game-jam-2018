@@ -117,7 +117,6 @@ class Source {
   packageArrived(packet) {
     if (packet.color === this.color) {
       console.log("Packet arrived correctly")
-      new BlueExplosion(packet.x, packet.y)
       packet.notifyDelivery()
       new LoseExplosion(packet.x, packet.y,packet.color)
       packet.notifyDelivery()
