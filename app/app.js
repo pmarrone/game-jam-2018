@@ -1,4 +1,4 @@
-var app = new PIXI.Application(1024, 768, {backgroundColor : 0x000000});
+var app = new PIXI.Application(1024, 768, {backgroundColor : 0x00000000});
 
 document.body.appendChild(app.view);
 
@@ -151,6 +151,13 @@ class Game {
       this.components.splice(this.components.indexOf(nextToRemove), 1);
     }
   }
+
+  startGame(level = 1) {
+    this.components = []
+    app.stage.removeChildren()
+    let currentLevel = levels[level](scheduler, game)
+    currentLevel.init()
+  }
 }
  
 class Delivery {
@@ -204,10 +211,8 @@ app.stage.addChild(debugGraphics)
 const scheduler = new PackageScheduler();
 scheduler.start()
 
-
-let level = 1
-let currentLevel = levels[level](scheduler, game)
-currentLevel.init()
+// app.stage.addChild(new Menu(game))
+game.startGame()
 
 sKey = keyboard(keyCodes.S)
 spaceKey = keyboard(keyCodes.SPACE)

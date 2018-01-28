@@ -4,8 +4,7 @@ class Router {
     this.packets = []
     const child = new PIXI.Sprite(Textures.router)
     child.interactive = true
-    child.cursor = 'wait'
-    // child.hitArea = new PIXI.Circle(0, 0, 25);
+    child.hitArea = new PIXI.Circle(0, 0, 50);
     this.child = child
     this.child.anchor.set(.25,.5)
     this.dst = []
