@@ -43,9 +43,14 @@ class Level {
   packageDestroyed() {
     this.remainingStars -= 1
     if (this.remainingStars === 0) {
+      this.showLevelComplete()
       console.log("Level ended with " + this.deliveredStars + " delivered stars")
-      this.end()
     }
+  }
+
+  showLevelComplete() {
+    app.stage.addChild(new LevelUI(game))
+
   }
 
   packageDelivered() {

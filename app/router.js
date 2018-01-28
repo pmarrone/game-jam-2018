@@ -4,7 +4,7 @@ class Router {
     this.packets = []
     const child = new PIXI.Sprite(Textures.router)
     child.interactive = true
-    child.hitArea = new PIXI.Circle(0, 0, 50);
+    child.hitArea = new PIXI.Circle(0, 0, 100);
     this.child = child
     this.child.anchor.set(.25,.5)
     this.dst = []
@@ -59,7 +59,7 @@ class Router {
     if (this.packets.length) {
       this.packets.forEach(packet => packet.destroy())
       packet.destroy()
-      new WinExplosion(packet.x, packet.y)
+      new LoseExplosion(packet.x, packet.y, Colors.orange)
       return
     }
     this.packets.push(packet)

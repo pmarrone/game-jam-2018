@@ -121,7 +121,7 @@ class Source {
       new WinExplosion(packet.x, packet.y, packet.color)
     } else {
       console.log("Packaged arrived at the wrong location")
-      new LoseExplosion(packet.x, packet.y,packet.color)
+      new LoseExplosion(packet.x, packet.y, Colors.orange)
     }
     packet.destroy()
   }
@@ -169,7 +169,7 @@ class Game {
   startGame(level = 1) {
     this.components = []
     app.stage.removeChildren()
-    let currentLevel = levels[level](scheduler, game)
+    let currentLevel = levels[level % levels.length](scheduler, game)
     this.currentLevel = currentLevel
     this.levelIndex = level
     currentLevel.init()
@@ -227,8 +227,9 @@ app.stage.addChild(debugGraphics)
 const scheduler = new PackageScheduler();
 scheduler.start()
 
-// app.stage.addChild(new Menu(game))
-game.startGame()
+app.stage.addChild(new Menu(game))
+//game.startGame()
+//app.stage.addChild(new LevelUI(game))
 
 sKey = keyboard(keyCodes.S)
 spaceKey = keyboard(keyCodes.SPACE)
@@ -247,36 +248,3 @@ sKey.press = () => {
   const level = (game.levelIndex + 1) % levels.length
   game.startGame(level)
 }
-
-class NormalMovement{
-  constructor (x,y){
-    
-
-    // create an AnimatedSprite (brings back memories from the days of Flash, right ?)
-    const normalMovement = new PIXI.extras.AnimatedSprite(normalMovementFrames);
-  //   /*
-  //    * An AnimatedSprite inherits all the properties of a PIXI sprite
-  //    * so you can change its position, its anchor, mask it, etc
-  //    */
-
-    normalMovement.x = x;
-    normalMovement.y = y;
-    normalMovement.anchor.set(0.5);
-    normalMovement.animationSpeed = 0.5;
-    normalMovement.loop = false
-    normalMovement.onComplete = function () {
-      // app.stage.removeChild(normalMovement)
-    }
-    normalMovement.play();
-    app.stage.addChild(normalMovement);
-
-    // Animate the rotation
-    app.ticker.add(function() {
-      normalMovement.rotation += 0.01;
-    });
-
-  }
-}
-
-// Listen for animate update
-
