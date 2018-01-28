@@ -12,6 +12,11 @@ class Level {
     this.scheduler.routers = this.routers
     this.scheduler.deliveries.push(...this.deliveries)
 
+    let bgd = PIXI.Sprite.fromImage('assets/raw/fondos/fondo1.png');
+    bgd.scale.x = 1.5;
+    bgd.scale.y = 1.5;
+    app.stage.addChild(bgd);
+
     this.arcs.forEach(arc => {
       this.game.addComponent(arc)
     })
