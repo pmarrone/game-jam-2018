@@ -11,8 +11,8 @@ const bigFont = new PIXI.TextStyle({
   dropShadowBlur: 4,
   dropShadowAngle: Math.PI / 6,
   dropShadowDistance: 6,
-  wordWrap: true,
-  wordWrapWidth: 440
+  wordWrap: false,
+  wordWrapWidth: 600
 })
 
 const smallerFont = new PIXI.TextStyle({
@@ -28,7 +28,7 @@ const smallerFont = new PIXI.TextStyle({
   dropShadowAngle: Math.PI / 6,
   dropShadowDistance: 6,
   wordWrap: true,
-  wordWrapWidth: 440
+  wordWrapWidth: 600
 })
 
 class Menu extends PIXI.Container {
@@ -51,23 +51,34 @@ class LevelUI extends PIXI.Container {
   constructor(game) {
     const offsetY = 300
     super()
-    const levelCompleted = new PIXI.Text('Level completed', bigFont)
-    levelCompleted.x = 30
-    levelCompleted.y = 180 + offsetY
-    levelCompleted.buttonMode = true
-    levelCompleted.interactive = true
-    levelCompleted.on('pointerup', (event) => {
+
+    const minStars = game.currentLevel.minStars
+    const win = game.currentLevel.deliveredStars >= minStars
+    const noMoreMoves = game.currentLevel.maxMoves - game.currentLevel.currentMoves <= 0
+    let endMessageText = win ? 'Level completed' : 'You failed!'
+    if (noMoreMoves) {
+      endMessageText += " - No moves left"
+    }
+
+    const endMessage = new PIXI.Text(endMessageText, bigFont)
+    endMessage.x = 30
+    endMessage.y = 180 + offsetY
+    endMessage.buttonMode = true
+    endMessage.interactive = true
+    endMessage.on('pointerup', (event) => {
       game.startGame()
     });
-    this.addChild(levelCompleted)
+    this.addChild(endMessage)
 
-    const score = new PIXI.Text('Level completed with ' + game.currentLevel.deliveredStars + "/" + game.currentLevel.totalStars + " delivered stars.", smallerFont )
+    const score = new PIXI.Text('Ended with ' + game.currentLevel.deliveredStars + "/" + game.currentLevel.totalStars + " delivered stars" + (win ? "" : " (you needed " + minStars + ")") + ".", smallerFont )
     score.x = 30
     score.y = 240 + offsetY
     this.addChild(score)
     const buttonsHeight = 340
     this.addChild(new UIButton('Retry', 30, buttonsHeight + offsetY, () => game.startGame(game.levelIndex)))
-    this.addChild(new UIButton('Next level', 190, buttonsHeight + offsetY, () => game.startGame(game.levelIndex + 1)))
+    if (win) {
+      this.addChild(new UIButton('Next level', 190, buttonsHeight + offsetY, () => game.startGame(game.levelIndex + 1)))
+    }
   }
 }
 

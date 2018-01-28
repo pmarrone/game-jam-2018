@@ -47,6 +47,7 @@ class Level {
   }
 
   end() {
+    this.enabled = false
     this.scheduler.deliveries = []
   }
 

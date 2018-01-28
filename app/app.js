@@ -193,6 +193,9 @@ class PackageScheduler {
   }
 
   processTick() {
+    if (!game.currentLevel.enabled) {
+      return
+    }
     this.processRoutersTick()
     this.processNextDeliveries()
     game.currentLevel && game.currentLevel.processNextTick()
