@@ -15,8 +15,8 @@ class Router {
     this.child = child
     this.child.anchor.set(.25,.5)
     this.dst = []
-    this.child.scale.x  = 1.5
-    this.child.scale.y  = 1.5
+    this.child.scale.x  = 1.2
+    this.child.scale.y  = 1.2
     this.child.x = x
     this.child.y = y
     

@@ -168,7 +168,7 @@ class Game {
     }
   }
 
-  startGame(level = 1) {
+  startGame(level = 0) {
     this.components = []
     app.stage.removeChildren()
     let currentLevel = levels[level % levels.length](scheduler, game)

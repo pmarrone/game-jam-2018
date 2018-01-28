@@ -58,8 +58,149 @@ class Level {
   }
 }
 
-
 function initLevel1(scheduler, game) {
+  const sources = {
+    sBlue: new Source(600, 200, Colors.blue),
+    sRed: new Source(200, 400, Colors.red),
+  }
+  const routers = {
+    a: new Router(350, 400),
+    b: new Router(500, 400),
+    e: new Router(300, 200)
+  }
+  const arcs = [
+    new Arc(routers.a, routers.b),
+    new Arc(routers.b, routers.e),
+    new Arc(sources.sBlue, routers.b),
+    new Arc(sources.sRed, routers.e),
+  ]  
+
+  const deliveries = [
+    new Delivery(sources.sRed, Colors.blue, 0),
+  ]
+  
+  return new Level({
+    sources,
+    routers,
+    arcs,
+    deliveries,
+    game,
+    scheduler
+  })
+  }
+
+  function initLevel2(scheduler) {
+    const sources = {
+    sBlue: new Source(710, 300, Colors.blue),
+    sRed: new Source(100, 150, Colors.red),
+    }
+    const routers = {
+    a: new Router(235, 185),
+    b: new Router(380, 235),
+    c: new Router(500, 300),
+    d: new Router(520, 430),
+    e: new Router(670, 450)
+    }
+    const arcs = [
+    new Arc(routers.a, routers.b),
+    new Arc(routers.b, routers.c),
+    new Arc(routers.d, routers.e),
+    new Arc(routers.c, routers.d),
+    new Arc(sources.sBlue, routers.c),
+    new Arc(sources.sBlue, routers.e),
+    new Arc(sources.sRed, routers.a),
+    ]
+    const packages = [
+    ]
+    
+    const deliveries = [
+    new Delivery(sources.sRed, Colors.blue, 0),
+    ]
+  
+    return new Level({
+      sources,
+      routers,
+      arcs,
+      deliveries,
+      scheduler,
+      game
+    })
+
+    }
+
+    function initLevel3(scheduler) {
+  const sources = {
+  sBlue: new Source(480, 400, Colors.blue),
+  sRed: new Source(280, 500, Colors.red),
+  }
+  const routers = {
+  a: new Router(330, 435),
+  b: new Router(300, 235),
+  c: new Router(400, 150),
+  d: new Router(520, 235),
+  }
+  const arcs = [
+  new Arc(routers.a, routers.b),
+  new Arc(routers.b, routers.c),
+  new Arc(routers.d, routers.b),
+  new Arc(routers.c, routers.d),
+  new Arc(sources.sBlue, routers.d),
+  new Arc(sources.sRed, routers.a),
+  ]
+ 
+  const deliveries = [ 
+    new Delivery(sources.sRed, Colors.blue, 0),
+  ]
+  return new Level({
+    sources,
+    routers,
+    arcs,
+    deliveries,
+    scheduler,
+    game
+  })
+  }
+  
+function initLevel4(scheduler, game) {
+  const sources = {
+    sBlue: new Source(400, 50, Colors.blue),
+    sRed: new Source(600, 500, Colors.red),
+    sYellow: new Source(30, 500, Colors.yellow)
+  }
+  const routers = {
+    a: new Router(200, 500),
+    b: new Router(400, 400),
+    c: new Router(200, 200),
+    d: new Router(500, 200),
+    e: new Router(600, 400)
+  }
+  const arcs = [
+    new Arc(routers.a, routers.b),
+    new Arc(routers.b, routers.c),
+    new Arc(routers.b, routers.e),
+    new Arc(routers.c, routers.a),
+    new Arc(routers.c, routers.d),
+    new Arc(sources.sBlue, routers.d),
+    new Arc(sources.sRed, routers.e),
+    new Arc(sources.sYellow, routers.c)
+  ]
+  const deliveries = [
+    new Delivery(sources.sYellow, Colors.red, 0),
+    new Delivery(sources.sRed, Colors.yellow, 1),
+    new Delivery(sources.sBlue, Colors.redsss, 1 ),
+  ]
+
+  return new Level({
+    sources,
+    routers,
+    arcs,
+    deliveries,
+    game,
+    scheduler
+  })
+}
+
+function initLevel5(scheduler, game) {
   const sources = {
     sBlue: new Source(680, 400, Colors.blue),
     sRed: new Source(260, 300, Colors.red),
@@ -108,48 +249,13 @@ function initLevel1(scheduler, game) {
   })
 }
 
-function initLevel2(scheduler, game) {
-  const sources = {
-    sBlue: new Source(400, 50, Colors.blue),
-    sRed: new Source(600, 500, Colors.red),
-    sYellow: new Source(30, 500, Colors.yellow)
-  }
-  const routers = {
-    a: new Router(200, 500),
-    b: new Router(400, 400),
-    c: new Router(200, 200),
-    d: new Router(500, 200),
-    e: new Router(600, 400)
-  }
-  const arcs = [
-    new Arc(routers.a, routers.b),
-    new Arc(routers.b, routers.c),
-    new Arc(routers.b, routers.e),
-    new Arc(routers.c, routers.a),
-    new Arc(routers.c, routers.d),
-    new Arc(sources.sBlue, routers.d),
-    new Arc(sources.sRed, routers.e),
-    new Arc(sources.sYellow, routers.c)
-  ]
-  const deliveries = [
-    new Delivery(sources.sYellow, Colors.red, 0),
-    new Delivery(sources.sRed, Colors.yellow, 0),
-    new Delivery(sources.sBlue, Colors.blue, 0),
-  ]
-
-  return new Level({
-    sources,
-    routers,
-    arcs,
-    deliveries,
-    game,
-    scheduler
-  })
-}
-
 const levels = [
   initLevel1,
-  initLevel2
+  initLevel2,
+  initLevel3,
+  initLevel4,
+  initLevel5,
+
 ]
 
 
