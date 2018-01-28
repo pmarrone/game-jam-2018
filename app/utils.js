@@ -7,9 +7,10 @@ const Colors = {
 }
 
 const Textures = {
-  router: PIXI.Texture.fromImage('assets/images/router.png'),
-  source: PIXI.Texture.fromImage('assets/images/source.png'),
-  package: PIXI.Texture.fromImage('assets/images/package.png')
+  router: PIXI.Texture.fromImage('assets/images/aguja 2.png'),
+  source: PIXI.Texture.fromImage('assets/images/aro de asiento.png'),
+  // source: PIXI.scale.y = 0.6,
+  package: PIXI.Texture.fromImage('assets/images/twinkle2.png')
 }
 
 

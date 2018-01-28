@@ -7,6 +7,8 @@ class Package {
     this.color = color
     this.child = new PIXI.Sprite(Textures.package)
     this.child.tint = color
+    this.child.scale.x  = .7
+    this.child.scale.y  = .7
     this.child.x = currentRouter.child.x
     this.child.y = currentRouter.child.y
     this.child.anchor.set(0.5)
@@ -41,11 +43,11 @@ class Package {
 
 Package.states = {
   idle: function (delta) {
-      //noop
+    //noop
   },
   inTransit: function (delta) {
     // console.log(`In transit!! Transition: ${this.transition}`)
-    this.transition +=  delta * 0.02 * game.speed
+    this.transition += delta * 0.02 * game.speed
     const box = this.child
     if (this.transition >= 1) {
       this.transition = 1
@@ -79,7 +81,7 @@ class Arc {
   draw() {
     const line = this.line, a = this.a, b = this.b
     line.clear()
-    line.lineStyle(4, 0xffd900, 1);
+    line.lineStyle(4, 0x0000d9, 1);
     line.moveTo(a.child.x, a.child.y)
     line.lineTo(b.child.x, b.child.y)
   }
@@ -89,8 +91,8 @@ class Source {
   constructor(x, y, color) {
     this.color = color
     this.child = new PIXI.Sprite(Textures.source)
-    this.child.x = x
-    this.child.y = y
+    this.child.x = x 
+    this.child.y = y 
     this.child.anchor.set(0.5)
     this.dst = []
     this.child.tint = color
@@ -154,8 +156,8 @@ class Game {
 class Delivery {
   constructor(fromRouter, color, sinceNow) {
     this.fromRouter = fromRouter,
-    this.color = color,
-    this.sinceNow = sinceNow
+      this.color = color,
+      this.sinceNow = sinceNow
   }
 }
 
@@ -192,6 +194,79 @@ class PackageScheduler {
 
   start() {
     setInterval(() => this.processTick(), 1500)
+  }
+}
+
+function initLevel1(scheduler) {
+  const sources = {
+    sBlue: new Source(680, 400, Colors.blue),
+    sRed: new Source(260, 300, Colors.red),
+    sYellow: new Source(630, 70, Colors.yellow)
+  }
+  const routers = {
+    a: new Router(130, 135),
+    b: new Router(290, 65),
+    c: new Router(380, 160),
+    d: new Router(340, 295),
+    e: new Router(170, 320),
+    f: new Router(130, 535),
+    g: new Router(400, 550),
+    h: new Router(700, 160),
+    ii: new Router(720, 260)
+  }
+  const arcs = [
+    new Arc(routers.a, routers.b),
+    new Arc(routers.a, routers.e),
+    new Arc(routers.b, routers.c),
+    new Arc(routers.c, routers.d),
+    new Arc(routers.c, routers.h),
+    new Arc(routers.d, routers.g),
+    new Arc(routers.g, routers.f),
+    new Arc(routers.f, routers.e),
+    new Arc(routers.h, routers.ii),
+    // new Arc(sources.sBlue, routers.d),
+    // new Arc(sources.sBlue, routers.d),
+    new Arc(sources.sBlue, routers.ii),
+    new Arc(sources.sRed, routers.d),
+    new Arc(sources.sRed, routers.e),
+    // new Arc(sources.sRed, routers.a),
+    new Arc(sources.sYellow, routers.h)
+  ]
+  const packages = [
+    //  new Package(routers.a,Colors.blue),
+    //  new Package(routers.b),
+    //  new Package(routers.c)
+  ]
+
+  scheduler.deliveries.push(
+    //new Delivery(sources.sBlue, Colors.blue, 1000),
+    new Delivery(sources.sYellow, Colors.red, 0),
+    new Delivery(sources.sRed, Colors.blue, 1000),
+    //new Delivery(sources.sYellow, Colors.red, 1000)
+    // new Delivery(sources.sBlue, Colors.red, 0)
+    // new Delivery(sources.sBlue, Colors.red, 3000),
+    // new Delivery(sources.sRed, Colors.blue, 1000),
+    new Delivery(sources.sBlue, Colors.yellow, 1000),
+    // new Delivery(sources.sYellow, Colors.red, 2000),
+    // new Delivery(sources.sBlue, Colors.blue, 1000),
+    // new Delivery(sources.sYellow, Colors.red, 2000),
+    // new Delivery(sources.sRed, Colors.yellow, 2000),
+    // new Delivery(sources.sYellow, Colors.red, 1000),
+    // new Delivery(sources.sRed, Colors.blue, 2000),
+    // new Delivery(sources.sBlue, Colors.red, 2000),
+    // new Delivery(sources.sRed, Colors.blue, 4000),
+    // new Delivery(sources.sBlue, Colors.yellow, 1000),
+    // new Delivery(sources.sYellow, Colors.red, 3000)
+  )
+  scheduler.routers = routers
+  scheduler.scheduleNext()
+
+
+  return {
+    sources,
+    routers,
+    arcs,
+    packages
   }
 }
 

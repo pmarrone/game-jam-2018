@@ -7,7 +7,7 @@ class Router {
     child.cursor = 'wait'
     // child.hitArea = new PIXI.Circle(0, 0, 25);
     this.child = child
-    this.child.anchor.set(0.5)
+    this.child.anchor.set(.25,.5)
     this.dst = []
 
     this.child.x = x
