@@ -86,7 +86,7 @@ class Hud extends PIXI.Container {
   constructor(game) {
     super()
     const hudY = 700
-    this.collected = new HudLabel(() => 'Stars collected: ' + game.currentLevel.deliveredStars + "/" + game.currentLevel.totalStars, 30, hudY)
+    this.collected = new HudLabel(() => 'Stars collected: ' + game.currentLevel.deliveredStars + "/" + game.currentLevel.minStars, 30, hudY)
     this.starsLeft = new HudLabel(() => 'Stars left: ' + game.currentLevel.remainingStars + "/" + game.currentLevel.totalStars, 400, hudY)
     this.movesLeft = new HudLabel(() => 'Remaining steps: ' + (game.currentLevel.maxMoves - game.currentLevel.currentMoves), 30, hudY - 80)
     this.level = new HudLabel(() => 'Level ' + (game.levelIndex + 1), 890, 10)
